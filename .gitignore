@@ -1,0 +1,17 @@
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+
+### Venv ###
+venv_owncrm/*
+
+### DB ###
+psql-data/*
+
+
+### IDE ###
+*.xml
+*.iml

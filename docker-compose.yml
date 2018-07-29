@@ -1,0 +1,15 @@
+version: '2'
+services:
+  db.postgres:
+    container_name: crmproject
+    image: postgres:9.4
+    volumes:
+      - ./psql-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=crmuser
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=crm
+    ports:
+      - '5432:5432'
+
+
