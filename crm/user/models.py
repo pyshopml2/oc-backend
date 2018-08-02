@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group as GroupUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils import timezone
 from . import managers
+from django.core.mail import send_mail
 
 # Валидация номера телефона
 phone_regex = RegexValidator(regex=r'^\+?1?\d{10}$', message="Номер должен быть в формате '9633609225'")
@@ -46,6 +47,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+    # Отправка письма пользователю
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        send_mail(subject, message, from_email, [self.email], **kwargs)
 
 # Модель сотрудника
 class Employee(User):
