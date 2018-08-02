@@ -6,18 +6,18 @@ User = get_user_model()
 
 
 class UserCreationForm(forms.ModelForm):
-    # Создание нового пользователя
+    # Создание нового пользователя c автоматической генерацией пароля
 
     class Meta:
         model = User
         fields = ('email', 'date_of_birth')
 
     def save(self, commit=True):
-        password1 = User.objects.make_random_password() # Генерация случайного пароля
+        password1 = User.objects.make_random_password()
         user = super().save(commit=False)
         user.set_password(password1)
-        subject = 'qwe'
-        message = password1
+        subject = 'qwe' #
+        message = password1 #
         user.email_user(subject=subject, message=message)
         if commit:
             user.save()
