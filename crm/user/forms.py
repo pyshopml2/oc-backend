@@ -1,24 +1,24 @@
 from django.contrib.auth import get_user_model, forms
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from .models import Employee
 
-User = get_user_model()
 
 
 class UserCreationForm(forms.ModelForm):
     # Создание нового пользователя c автоматической генерацией пароля
 
     class Meta:
-        model = User
-        fields = ('email', 'date_of_birth')
+        model = Employee
+        fields = ('email', )
 
     def save(self, commit=True):
-        password1 = User.objects.make_random_password()
+        password1 = Employee.objects.make_random_password()
         user = super().save(commit=False)
         user.set_password(password1)
         subject = 'qwe' #
         message = password1 #
-        user.email_user(subject=subject, message=message)
+        user.email_user(subject=subject, message=message) #
         if commit:
             user.save()
         return user
@@ -32,7 +32,7 @@ class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        model = User
+        model = Employee
         fields = ('email', 'password', 'date_of_birth', 'is_active', 'is_superuser')
 
     def clean_password(self):
