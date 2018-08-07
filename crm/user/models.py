@@ -56,6 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Employee(User):
     login_skype = models.CharField(max_length=50, blank=True, verbose_name='Skype')
     confirmed_email = models.BooleanField(default=False, verbose_name='Подтвержденный email')
+    group = models.OneToOneField('GroupEmployee', on_delete=models.PROTECT, default=None, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Сотрудник'
@@ -71,11 +72,12 @@ class ContactPerson(User):
         verbose_name = 'Контактное лицо'
         verbose_name_plural = 'Контактные лица'
 
-# Модель группы
-class Group(GroupUser):
-    description = models.TextField(blank=True, verbose_name='Описание')
-    created_date = models.DateField(blank=True, null=True, verbose_name='Дата создания')
-    creator = models.OneToOneField(User, on_delete=models.PROTECT, blank=True, verbose_name='Создатель')
+# Модель группы сотрудников
+class GroupEmployee(models.Model):
+    name = models.CharField(max_length=60, verbose_name='Имя группы')
+    description = models.CharField(max_length=400, verbose_name='Описание')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    creator = models.CharField(max_length=5, verbose_name='Создатель')
 
     class Meta:
         verbose_name = 'Группа'

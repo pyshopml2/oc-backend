@@ -44,7 +44,7 @@ admin.site.register(User, UserAdmin)
 class EmployeeAdmin(UserAdmin):
     fieldsets = [
         (None, {'fields': ['login_skype']}),
-        (None, {'fields': ['confirmed_email']}),
+        (None, {'fields': ['confirmed_email', 'group']}),
     ]
     fieldsets.insert(0, UserAdmin.fieldsets[0])
     fieldsets.insert(1, UserAdmin.fieldsets[1])
@@ -64,4 +64,8 @@ class ContactPersonAdmin(admin.ModelAdmin):
 
 @admin.register(EmployeePosition)
 class EmployeePositionAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(GroupEmployee)
+class GroupEmployeeAdmin(admin.ModelAdmin):
     pass
