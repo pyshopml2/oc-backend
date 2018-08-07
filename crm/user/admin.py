@@ -44,7 +44,7 @@ admin.site.register(User, UserAdmin)
 class EmployeeAdmin(UserAdmin):
     fieldsets = [
         (None, {'fields': ['login_skype']}),
-        (None, {'fields': ['confirmed_email', 'group']}),
+        (None, {'fields': ['confirmed_email', 'group', 'status']}),
     ]
     fieldsets.insert(0, UserAdmin.fieldsets[0])
     fieldsets.insert(1, UserAdmin.fieldsets[1])
@@ -55,7 +55,7 @@ class EmployeeAdmin(UserAdmin):
 @admin.register(ContactPerson)
 class ContactPersonAdmin(admin.ModelAdmin):
     fieldsets = [
-        ('Адрес', {'fields': ['region', 'city', 'dialing_code']}),
+        ('Адрес', {'fields': ['region', 'city', 'dialing_code', 'status']}),
     ]
     fieldsets.insert(0, UserAdmin.fieldsets[0])
     fieldsets.insert(1, UserAdmin.fieldsets[1])
@@ -69,3 +69,5 @@ class EmployeePositionAdmin(admin.ModelAdmin):
 @admin.register(GroupEmployee)
 class GroupEmployeeAdmin(admin.ModelAdmin):
     pass
+
+admin.site.unregister(Group)

@@ -10,6 +10,14 @@ from django.core.mail import send_mail
 # Валидация номера телефона
 phone_regex = RegexValidator(regex=r'^\+?1?\d{10}$', message="Номер должен быть в формате '9633609225'")
 
+STATUS = (
+    ('А', 'Активный'),
+    ('Б', 'Болен'),
+    ('К', 'Командировка'),
+    ('О', 'Отпуск'),
+    ('У', 'Уволен'),
+)
+
 # Модель должности сотрудника
 class EmployeePosition(models.Model):
     name = models.CharField(max_length=50, blank=True, verbose_name='Должность')
@@ -57,6 +65,7 @@ class Employee(User):
     login_skype = models.CharField(max_length=50, blank=True, verbose_name='Skype')
     confirmed_email = models.BooleanField(default=False, verbose_name='Подтвержденный email')
     group = models.OneToOneField('GroupEmployee', on_delete=models.PROTECT, default=None, blank=True, null=True)
+    status = models.CharField(max_length=2, null=True, choices=STATUS, default='A')
 
     class Meta:
         verbose_name = 'Сотрудник'
@@ -67,6 +76,7 @@ class ContactPerson(User):
     region = models.CharField(blank=True, max_length=60, verbose_name='Регион')
     city = models.CharField(blank=True, max_length=60, verbose_name='Город')
     dialing_code = models.CharField(max_length=10, verbose_name='Телефонный код города')
+    status = models.CharField(max_length=2, null=True, choices=STATUS, default='A')
 
     class Meta:
         verbose_name = 'Контактное лицо'
