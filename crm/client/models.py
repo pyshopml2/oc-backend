@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+from user.models import Employee, User
 
 # Create your models here.
 
@@ -16,9 +18,9 @@ class Client(models.Model):
     additional_info = models.CharField(max_length=255, blank=True, verbose_name='Дополнительная информация')
     note = models.TextField(blank=True, verbose_name='Примечание сотрудника')
 
-    responsible_manager = models.OneToOneField(Employee, models.PROTECT, blank=True, null=True, verbose_name='Ответственный менеджер')
-    status = models.OneToOneField(Status, models.PROTECT, blank=True, null=True, verbose_name='Статус')
-    creator = models.OneToOneField(User, on_delete=models.PROTECT, verbose_name='Создатель')
+    client_manager = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='client_manager', blank=True, null=True, verbose_name='Ответственный менеджер')
+    #status = models.OneToOneField(Status, models.PROTECT, blank=True, null=True, verbose_name='Статус')
+    client_creator = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='client_creator', blank=True, null=True, verbose_name='Создатель')
 
     date_of_create = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     date_of_edit = models.DateField(auto_now=True, verbose_name='Дата последнего редактирования')

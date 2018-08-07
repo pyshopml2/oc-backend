@@ -1,5 +1,5 @@
 from django.db import models
-from employee.models import Employee
+from user.models import Employee
 
 class Task(models.Model):
     name = models.CharField(max_length=255, verbose_name='Наименование задачи')
@@ -8,9 +8,9 @@ class Task(models.Model):
     time_todo = models.TimeField(verbose_name='Время выполнения')
     status = models.CharField(max_length=20, verbose_name='Статус')
     priority = models.CharField(max_length=20, verbose_name='Приоритет')
-    text = models.TextField(verbose_name='Описание задачи')
-    creator = models.OneToOneField(Employee, on_delete=models.PROTECT, verbose_name='Создатель')
-    executor = models.OneToOneField(Employee, on_delete=models.PROTECT, verbose_name='Создатель')
+    task_description = models.TextField(verbose_name='Описание задачи', blank=True)
+    task_creator = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='task_creator', blank=True, null=True, verbose_name='Создатель')
+    task_executor = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='task_executor', blank=True, null=True, verbose_name='Создатель')
 
     class Meta:
         verbose_name = 'Задача'
