@@ -7,6 +7,7 @@ from django.utils import timezone
 from . import managers
 from django.core.mail import send_mail
 
+
 # Валидация номера телефона
 phone_regex = RegexValidator(regex=r'^\+?1?\d{10}$', message="Номер должен быть в формате '9633609225'")
 
@@ -77,6 +78,7 @@ class ContactPerson(User):
     city = models.CharField(blank=True, max_length=60, verbose_name='Город')
     dialing_code = models.CharField(max_length=10, verbose_name='Телефонный код города')
     status = models.CharField(max_length=2, null=True, choices=STATUS, default='A')
+
 
     class Meta:
         verbose_name = 'Контактное лицо'
