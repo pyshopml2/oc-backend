@@ -5,27 +5,39 @@
     ```
     git clone https://github.com/pyshopml2/oc-backend.git
     ```
-4. Создадим точку монтирования в директории oc-backend
+4. Выберем ветку master
+    ```
+    git checkout master
+    ```
+5. Создадим новую директорию рядом с Dockerfile
+    ```
+    mkdir Docker/crm
+    ```
+6. Создадим точку монтирования в директории oc-backend
     ```
     mount --bind /crm /Docker/crm
     ```
-5. Запустим наш docker-compose в режиме демона
+7. Построим проект и установим зависимости
+    ```
+    docker-compose build
+    ```
+8. Запустим наш docker-compose в режиме демона
     ```
     sudo docker-compose up -d
     ```
-6. Произведем анализ моделей
+9. Произведем анализ моделей
     ```
     sudo docker exec -it django_server python manage.py makemigrations
     ```
-7. Примененим изменения к базе данных
+10. Примененим изменения к базе данных
     ```
     sudo docker exec -it django_server python manage.py migrate
     ```
-8. Создадим пользователя с правами администратора
+11. Создадим пользователя с правами администратора
     ```
     sudo docker exec -it django_server python manage.py createsuperuser
     ```
-9. Проверим доступ к панели управления
+12. Проверим доступ к панели управления
     ```
     curl http://127.0.0.1:8000/admin
     ```
