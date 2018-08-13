@@ -7,7 +7,8 @@ class ContactPerson(User):
     region = models.CharField(blank=True, max_length=60, verbose_name='Регион')
     city = models.CharField(blank=True, max_length=60, verbose_name='Город')
     dialing_code = models.CharField(max_length=10, verbose_name='Телефонный код города')
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='client', verbose_name='Компания')
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='contact_person', verbose_name='Компания',
+                               blank=True, null=True)
 
     class Meta:
         verbose_name = 'Контактное лицо'
