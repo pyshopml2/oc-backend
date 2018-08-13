@@ -15,9 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from api.v1.user.routes import api_router
+from api.v1.document.routes import document_router
+from api.v1.client.routes import client_router
+from api.v1.user.routes import user_router
+from api.v1.employee.routes import employee_router
+from api.v1.position.routes import position_router
+from api.v1.person.routes import person_router
+from api.v1.storage.routes import storage_router
+from api.v1.task.routes import task_router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include(api_router.urls))
+    path('client/', include(client_router.urls)),
+    path('document/', include(document_router.urls)),
+    path('position/', include(position_router.urls)),
+    path('user/', include(user_router.urls)),
+    path('employee/', include(employee_router.urls)),
+    path('person/', include(person_router.urls)),
+    path('storage/', include(storage_router.urls)),
+    path('task/', include(task_router.urls)),
 ]

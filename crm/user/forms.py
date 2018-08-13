@@ -1,9 +1,7 @@
 from django.contrib.auth import get_user_model, forms
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from .models import Employee
-
-
+from employee.models import Employee
 
 class UserCreationForm(forms.ModelForm):
     # Создание нового пользователя c автоматической генерацией пароля

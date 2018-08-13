@@ -16,7 +16,8 @@ class CatalogDocuments(models.Model):
 
 class Document(models.Model):
     # Номер документа ?
-    document = models.OneToOneField(CatalogDocuments, on_delete=models.PROTECT, verbose_name='Документ', blank=True, null=True)
+    catalog_documents = models.OneToOneField(CatalogDocuments, related_name='catalog_documents',
+                                             on_delete=models.PROTECT, verbose_name='Документ', blank=True, null=True)
     status = models.CharField(max_length=2, choices=STATUS, default='НП', verbose_name='Статус')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 

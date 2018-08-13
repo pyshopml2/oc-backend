@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
-from user.models import Employee, User
+from employee.models import Employee
+from user.models import User
 
 class ClientStatus(models.Model):
     name = models.CharField(max_length=50)
@@ -23,13 +24,14 @@ class Client(models.Model):
     additional_info = models.CharField(max_length=255, blank=True, verbose_name='Дополнительная информация')
     note = models.TextField(blank=True, verbose_name='Примечание сотрудника')
 
-    client_manager = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='client_manager', blank=True,
+    employee_manager = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='employee_manager', blank=True,
                                        null=True, verbose_name='Ответственный менеджер')
 
-    status = models.OneToOneField(ClientStatus, on_delete=models.PROTECT, blank=True, null=True, verbose_name='Статус')
-    client_creator = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='client_creator', blank=True,
+    client_status = models.OneToOneField(ClientStatus, on_delete=models.PROTECT, related_name='client_status',
+                                  blank=True, null=True, verbose_name='Статус')
+    employee_creator = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='employee_creator', blank=True,
                                        null=True, verbose_name='Создатель')
-    group = models.ManyToManyField('GroupClient')
+    group_client = models.ManyToManyField('GroupClient', related_name='group_client')
 
     date_of_create = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     date_of_edit = models.DateField(auto_now=True, verbose_name='Дата последнего редактирования')
@@ -47,7 +49,7 @@ class GroupClient(models.Model):
     name = models.CharField(max_length=50, verbose_name='Название')
     description = models.CharField(max_length=400, verbose_name='Описание')
     created_date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
-    creator = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='group_client_creator', blank=True,
+    cmployee_creator = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='group_client', blank=True,
                                        null=True, verbose_name='Создатель')
 
     class Meta:

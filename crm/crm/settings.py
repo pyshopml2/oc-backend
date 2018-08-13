@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'task',
     'storage',
     'document',
+    'position',
+    'employee',
+    'person'
 ]
 
 MIDDLEWARE = [
