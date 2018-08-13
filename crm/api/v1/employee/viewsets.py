@@ -4,8 +4,8 @@ from .serializers import *
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
-    serializer_class = EmployeeSerilizer
+    serializer_class = EmployeeSerializer
 
 class GroupEmployeeViewSet(viewsets.ModelViewSet):
     queryset = GroupEmployee.objects.all()
-    serializer_class = GroupEmployeeSerilizer
+    serializer_class = GroupEmployeeSerializer
