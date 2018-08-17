@@ -6,6 +6,6 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
-class GroupEmployeeViewSet(viewsets.ModelViewSet):
-    queryset = GroupEmployee.objects.all()
-    serializer_class = GroupEmployeeSerializer
+class EmployeeGroupViewSet(viewsets.ModelViewSet):
+    queryset = EmployeeGroup.objects.all()
+    serializer_class = EmployeeGroupSerializer

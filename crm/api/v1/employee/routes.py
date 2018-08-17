@@ -3,5 +3,5 @@ from .viewsets import *
 
 employee_router = routers.SimpleRouter()
 
-employee_router.register('employee', EmployeeViewSet)
-employee_router.register('group', GroupEmployeeViewSet)
+employee_router.register('group', EmployeeGroupViewSet)
+employee_router.register('', EmployeeViewSet)

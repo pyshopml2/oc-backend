@@ -8,3 +8,6 @@ class Position(models.Model):
     class Meta:
         verbose_name = 'Должность сотрудника'
         verbose_name_plural = 'Должности сотрудников'
+
+    def __str__(self):
+        return self.name

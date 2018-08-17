@@ -10,7 +10,7 @@ class ClientAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(GroupClient)
+@admin.register(ClientGroup)
 class ClientAdmin(admin.ModelAdmin):
     pass
 

@@ -20,5 +20,5 @@ class ClientSerializer(serializers.ModelSerializer):
 class GroupClientSerializer(serializers.ModelSerializer):
 	employee_creator = EmployeeSerializer('group_client')
 	class Meta:
-		model = GroupClient
+		model = ClientGroup
 		fields = '__all__'

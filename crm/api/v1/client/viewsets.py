@@ -10,6 +10,6 @@ class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
 
-class GroupClientViewSet(viewsets.ModelViewSet):
-    queryset = GroupClient.objects.all()
+class ClientGroupViewSet(viewsets.ModelViewSet):
+    queryset = ClientGroup.objects.all()
     serializer_class = GroupClientSerializer

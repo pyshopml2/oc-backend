@@ -12,11 +12,11 @@ from position.models import Position
 phone_regex = RegexValidator(regex=r'^\+?1?\d{10}$', message="Номер должен быть в формате '9633609225'")
 
 STATUS = (
-    ('А', 'Активный'),
-    ('Б', 'Болен'),
-    ('К', 'Командировка'),
-    ('О', 'Отпуск'),
-    ('У', 'Уволен'),
+    ('1', 'Активный'),
+    ('2', 'Болен'),
+    ('3', 'Командировка'),
+    ('4', 'Отпуск'),
+    ('5', 'Уволен'),
 )
 
 # Модель пользователя
@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True, verbose_name='Активный аккаунт')
     is_staff = models.BooleanField(default=False, verbose_name='Статус персонала')
     is_superuser = models.BooleanField(default=False, verbose_name='Статус администратора')
-    status = models.CharField(max_length=2, null=True, choices=STATUS, default='A')
+    status = models.CharField(max_length=1, null=True, choices=STATUS, default='1')
 
     objects = managers.UserManager()
 
@@ -53,3 +53,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     # Отправка письма пользователю
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
