@@ -1,4 +1,5 @@
 import os, django
+import pytz
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crm.settings')
 django.setup()
@@ -14,6 +15,9 @@ from storage.models import *
 from task.models import *
 
 from user.models import STATUS as user_status
+from document.models import STATUS as document_status
+from task.models import PRIORITY as task_prioity
+from task.models import STATUS as task_status
 
 # *
 
@@ -28,9 +32,9 @@ class PositionFactory(factory.DjangoModelFactory):
 class GroupEmployeeFactory(factory.DjangoModelFactory):
 
 	class Meta:
-		model = GroupEmployee
+		model = EmployeeGroup
 
-	name = factory.Sequence(lambda n: "Group #%s" % n)
+	name = factory.Sequence(lambda n: "Group {}".format(n))
 	description = factory.Faker('text')
 	created_at = factory.Faker('iso8601')
 	#creator
@@ -40,9 +44,48 @@ class ClientStatusFactory(factory.DjangoModelFactory):
 	class Meta:
 		model = ClientStatus
 
-	name = 'active'
+	name = factory.Faker('text', max_nb_chars=20)
+
+class CatalogDocumentsFactory(factory.DjangoModelFactory):
+
+	class Meta:
+		model = CatalogDocuments
+
+	name = factory.Faker('text', max_nb_chars=20)
+	description = factory.Faker('text', max_nb_chars=200)
+
+class StorageFactory(factory.DjangoModelFactory):
+
+	class Meta:
+		model = Storage
+
+	name = factory.Faker('text', max_nb_chars=20)
+	address = factory.Faker('text', max_nb_chars=20)
+	mode = factory.Faker('text', max_nb_chars=20)
+	first_name = factory.Faker('first_name')
+	middle_name = factory.Faker('first_name')
+	last_name = factory.Faker('last_name')
+	phone_number = 9633609226
+	scheme = factory.Faker('file_name')
+	note = factory.Faker('text')
+
+StorageFactory()
+
 
 # **
+
+STATUS_DOCUMENT = [x[0] for x in document_status]
+
+class DocumentFactory(factory.DjangoModelFactory):
+
+	class Meta:
+		model = Document
+
+	catalog_documents = factory.SubFactory(CatalogDocumentsFactory)
+	status = factory.fuzzy.FuzzyChoice(STATUS_DOCUMENT)
+	created_date = factory.Faker('iso8601')
+
+DocumentFactory()
 
 STATUS_USER = [x[0] for x in user_status]
 
@@ -60,7 +103,7 @@ class EmployeeFactory(factory.DjangoModelFactory):
 	phone_number = 9633609226
 	extra_phone_number = 9633609226
 	other_contacts = factory.Faker('text')
-	#timezone = factory.Faker('timezone')
+	timezone = factory.Faker('iso8601', tzinfo=pytz.utc)
 	is_active = True
 	is_staff = True
 	is_superuser = False
@@ -69,17 +112,17 @@ class EmployeeFactory(factory.DjangoModelFactory):
 	confirmed_email = True
 	employee_group = factory.SubFactory(GroupEmployeeFactory)
 
-class GroupClientFactory(factory.DjangoModelFactory):
+class ClientGroupFactory(factory.DjangoModelFactory):
 
 	class Meta:
-		model = GroupClient
+		model = ClientGroup
 
-	name = factory.Sequence(lambda n: "Group #%s" % n)
+	name = factory.Sequence(lambda n: "Group {0}".format(n))
 	description = factory.Faker('text')
 	created_date = factory.Faker('iso8601')
-	cmployee_creator = factory.SubFactory(EmployeeFactory)
+	employee_creator = factory.SubFactory(EmployeeFactory)
 
-GroupClientFactory()
+ClientGroupFactory()
 
 class ClientFactory(factory.DjangoModelFactory):
 
@@ -94,25 +137,23 @@ class ClientFactory(factory.DjangoModelFactory):
 	region = factory.Faker('address')
 	city = factory.Faker('city')
 	website = 'https://google.com'
-	group_client = factory.SubFactory(GroupClientFactory)
-	#timezone = ''
+	group_client = factory.SubFactory(ClientGroupFactory)
+	timezone = factory.Faker('iso8601', tzinfo=pytz.utc)
 	additional_info = factory.Faker('text')
 	note = factory.Faker('text')
 	employee_manager = factory.SubFactory(EmployeeFactory)
 	client_status = factory.SubFactory(ClientStatusFactory)
 	employee_creator = factory.SubFactory(EmployeeFactory)
-	#date_of_create
-	#date_of_edit
+	date_of_create = factory.Faker('past_date')
+	date_of_edit = factory.Faker('date')
 	is_active = True
 
 	@factory.post_generation
 	def group_client(self, create, extracted, **kwargs):
 		if not create:
-			# Simple build, do nothing.
 			return
 
 		if extracted:
-			# A list of groups were passed in, use them
 			for group in extracted:
 				self.group_client.add(group)
 
@@ -130,7 +171,7 @@ class PersonFactory(factory.DjangoModelFactory):
 	phone_number = 9633609226
 	extra_phone_number = 9633609226
 	other_contacts = factory.Faker('text')
-	# timezone
+	timezone = factory.Faker('iso8601', tzinfo=pytz.utc)
 	is_active = True
 	is_staff = True
 	is_superuser = False
@@ -141,3 +182,23 @@ class PersonFactory(factory.DjangoModelFactory):
 	client = factory.SubFactory(ClientFactory)
 
 PersonFactory()
+
+PRIORITY_TASK = [x[0] for x in task_prioity]
+STATUS_TASK = [x[0] for x in task_status]
+
+
+class TaskFactory(factory.DjangoModelFactory):
+
+	class Meta:
+		model = Task
+
+	name = factory.Faker('text')
+	datetime_of_create = factory.Faker('date_time_this_month', tzinfo=pytz.UTC)
+	date_time_todo = factory.Faker('future_datetime', tzinfo=pytz.UTC)
+	status = factory.fuzzy.FuzzyChoice(STATUS_TASK)
+	priority = factory.fuzzy.FuzzyChoice(PRIORITY_TASK)
+	task_description = factory.Faker('text')
+	task_creator = factory.SubFactory(EmployeeFactory)
+	task_executor = factory.SubFactory(EmployeeFactory)
+
+TaskFactory()
