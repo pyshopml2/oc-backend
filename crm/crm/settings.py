@@ -45,8 +45,14 @@ INSTALLED_APPS = [
     'document',
     'position',
     'employee',
-    'person'
+    'person',
+    'django_extensions'
 ]
+
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
