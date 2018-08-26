@@ -3,8 +3,9 @@ from user.models import *
 from api.v1.position.serializers import PositionSerilizer
 
 class UserSerilizer(serializers.ModelSerializer):
-    #position_name = serializers.ReadOnlyField(source='user_position.name')
-    position_name = PositionSerilizer(source='user_position')
+    # position_name = serializers.ReadOnlyField(source='user_position.name')
+    # position_name = PositionSerilizer(source='user_position')
     class Meta:
         model = User
         fields = '__all__'
+        depth = 1

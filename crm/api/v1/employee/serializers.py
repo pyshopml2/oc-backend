@@ -3,18 +3,24 @@ from employee.models import *
 from api.v1.position.serializers import PositionSerilizer
 from api.v1.user.serializers import UserSerilizer
 from api.v1.position.serializers import PositionSerilizer
+from position.models import Position
 
-
-class EmployeeSerializer(UserSerilizer):
-    #employee_group = PositionSerilizer('employee_group')
-    user_position = PositionSerilizer('user_position')
-    class Meta(UserSerilizer.Meta):
-        model = Employee
-        fields = '__all__'
-        depth = 2
 
 class EmployeeGroupSerializer(serializers.ModelSerializer):
-    creator = EmployeeSerializer('creator')
     class Meta:
         model = EmployeeGroup
         fields = '__all__'
+
+
+class EmployeeSerializer(UserSerilizer):
+
+    user_position_id = serializers.PrimaryKeyRelatedField(
+        queryset=Position.objects.all(), source='user_position', write_only=True)
+
+
+
+    class Meta(UserSerilizer.Meta):
+        model = Employee
+        fields = '__all__'
+        read_only_fields = ('group',)
+        depth = 1

@@ -27,11 +27,11 @@ class Client(models.Model):
     note = models.TextField(blank=True, verbose_name='Примечание сотрудника')
     employee_manager = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='employee_manager', blank=True,
                                        null=True, verbose_name='Ответственный менеджер')
-    client_status = models.OneToOneField(ClientStatus, on_delete=models.PROTECT, related_name='client_status',
+    client_status = models.ForeignKey(ClientStatus, on_delete=models.PROTECT, related_name='client_status',
                                   blank=True, null=True, verbose_name='Статус')
     employee_creator = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='employee_creator', blank=True,
                                        null=True, verbose_name='Создатель')
-    client_group = models.ManyToManyField('ClientGroup', related_name='client_group')
+    client_group = models.ManyToManyField('ClientGroup', related_name='client_group', blank=True)
 
     date_of_create = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     date_of_edit = models.DateField(auto_now=True, verbose_name='Дата последнего редактирования')

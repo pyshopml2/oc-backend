@@ -19,7 +19,7 @@ class CatalogDocuments(models.Model):
 
 class Document(models.Model):
     # Номер документа ?
-    catalog_documents = models.OneToOneField(CatalogDocuments, related_name='catalog_documents',
+    catalog_documents = models.ForeignKey(CatalogDocuments, related_name='catalog_documents',
                                              on_delete=models.PROTECT, verbose_name='Документ', blank=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS, default='1', verbose_name='Статус')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')

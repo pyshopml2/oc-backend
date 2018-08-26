@@ -25,7 +25,7 @@ SECRET_KEY = 'e-01!)q3%uvhkan4e3a301c&6+b$xzqjv!pxs-0v#2&f9+chu='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'position',
     'employee',
     'person',
-    'django_extensions'
+    'django_extensions',
+    'core',
+    'api'
 ]
 
 GRAPH_MODELS = {

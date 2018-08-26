@@ -3,4 +3,4 @@ from .viewsets import *
 
 task_router = routers.SimpleRouter()
 
-task_router.register('', TaskViewSet)
+task_router.register('', TaskViewSet, base_name='task')

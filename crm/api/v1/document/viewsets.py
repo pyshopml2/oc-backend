@@ -4,7 +4,7 @@ from .serializers import *
 
 class CatalogDocumentsViewSet(viewsets.ModelViewSet):
     queryset = CatalogDocuments.objects.all()
-    serializer_class = DocumentSerilizer
+    serializer_class = CatalogDocumentsSerilizer
 
 class DocumentViewSet(viewsets.ModelViewSet):
     queryset = Document.objects.all()

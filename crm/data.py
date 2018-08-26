@@ -1,4 +1,5 @@
-import os, django
+import os
+import django
 import pytz
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crm.settings')
@@ -21,6 +22,7 @@ from task.models import STATUS as task_status
 
 # *
 
+
 class PositionFactory(factory.DjangoModelFactory):
 
 	class Meta:
@@ -29,7 +31,8 @@ class PositionFactory(factory.DjangoModelFactory):
 	name = factory.Faker('job')
 	description = factory.Faker('text')
 
-class GroupEmployeeFactory(factory.DjangoModelFactory):
+
+class EmployeeGroupFactory(factory.DjangoModelFactory):
 
 	class Meta:
 		model = EmployeeGroup
@@ -37,7 +40,8 @@ class GroupEmployeeFactory(factory.DjangoModelFactory):
 	name = factory.Sequence(lambda n: "Group {}".format(n))
 	description = factory.Faker('text')
 	created_at = factory.Faker('iso8601')
-	#creator
+	# creator
+
 
 class ClientStatusFactory(factory.DjangoModelFactory):
 
@@ -46,6 +50,7 @@ class ClientStatusFactory(factory.DjangoModelFactory):
 
 	name = factory.Faker('text', max_nb_chars=20)
 
+
 class CatalogDocumentsFactory(factory.DjangoModelFactory):
 
 	class Meta:
@@ -53,6 +58,7 @@ class CatalogDocumentsFactory(factory.DjangoModelFactory):
 
 	name = factory.Faker('text', max_nb_chars=20)
 	description = factory.Faker('text', max_nb_chars=200)
+
 
 class StorageFactory(factory.DjangoModelFactory):
 
@@ -69,12 +75,14 @@ class StorageFactory(factory.DjangoModelFactory):
 	scheme = factory.Faker('file_name')
 	note = factory.Faker('text')
 
+
 StorageFactory()
 
 
 # **
 
 STATUS_DOCUMENT = [x[0] for x in document_status]
+
 
 class DocumentFactory(factory.DjangoModelFactory):
 
@@ -85,9 +93,11 @@ class DocumentFactory(factory.DjangoModelFactory):
 	status = factory.fuzzy.FuzzyChoice(STATUS_DOCUMENT)
 	created_date = factory.Faker('iso8601')
 
+
 DocumentFactory()
 
 STATUS_USER = [x[0] for x in user_status]
+
 
 class EmployeeFactory(factory.DjangoModelFactory):
 
@@ -110,7 +120,8 @@ class EmployeeFactory(factory.DjangoModelFactory):
 	status = factory.fuzzy.FuzzyChoice(STATUS_USER)
 	login_skype = factory.Faker('user_name')
 	confirmed_email = True
-	employee_group = factory.SubFactory(GroupEmployeeFactory)
+	group = factory.SubFactory(EmployeeGroupFactory)
+
 
 class ClientGroupFactory(factory.DjangoModelFactory):
 
@@ -122,7 +133,9 @@ class ClientGroupFactory(factory.DjangoModelFactory):
 	created_date = factory.Faker('iso8601')
 	employee_creator = factory.SubFactory(EmployeeFactory)
 
+
 ClientGroupFactory()
+
 
 class ClientFactory(factory.DjangoModelFactory):
 
@@ -149,13 +162,14 @@ class ClientFactory(factory.DjangoModelFactory):
 	is_active = True
 
 	@factory.post_generation
-	def group_client(self, create, extracted, **kwargs):
+	def group_client(self, create, extracted):
 		if not create:
 			return
 
 		if extracted:
 			for group in extracted:
 				self.group_client.add(group)
+
 
 class PersonFactory(factory.DjangoModelFactory):
 
@@ -181,6 +195,7 @@ class PersonFactory(factory.DjangoModelFactory):
 	dialing_code = 34
 	client = factory.SubFactory(ClientFactory)
 
+
 PersonFactory()
 
 PRIORITY_TASK = [x[0] for x in task_prioity]
@@ -200,5 +215,6 @@ class TaskFactory(factory.DjangoModelFactory):
 	task_description = factory.Faker('text')
 	task_creator = factory.SubFactory(EmployeeFactory)
 	task_executor = factory.SubFactory(EmployeeFactory)
+
 
 TaskFactory()
