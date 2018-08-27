@@ -38,7 +38,7 @@ class BuildEmployeeFactory(EmployeeFactory):
 	class Meta:
 		strategy = factory.STUB_STRATEGY
 
-class EmployeeGroupFactory(factory.Factory):
+class EmployeeGroupFactory(factory.DjangoModelFactory):
 
 	class Meta:
 		model = EmployeeGroup

@@ -5,8 +5,8 @@ from user.models import User
 class Employee(User):
     login_skype = models.CharField(max_length=50, blank=True, verbose_name='Skype')
     confirmed_email = models.BooleanField(default=False, verbose_name='Подтвержденный email')
-    group = models.ForeignKey('EmployeeGroup', related_name='employee',
-                                 on_delete=models.PROTECT, default=None, blank=True, null=True)
+    group = models.ForeignKey('EmployeeGroup', related_name='employee_group',
+                                 on_delete=models.PROTECT, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Сотрудник'
