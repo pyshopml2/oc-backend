@@ -3,4 +3,4 @@ from .viewsets import *
 
 person_router = routers.SimpleRouter()
 
-person_router.register('', ContactPersonViewSet)
+person_router.register('', ContactPersonViewSet, base_name='person')

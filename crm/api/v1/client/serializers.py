@@ -32,7 +32,10 @@ class ClientSerializer(serializers.ModelSerializer):
 
 
 class GroupClientSerializer(serializers.ModelSerializer):
-	# employee_creator = EmployeeSerializer('group_client')
+
+	employee_creator_id = serializers.PrimaryKeyRelatedField(
+		queryset=Employee.objects.all(), source='employee_creator', write_only=True)
+
 	class Meta:
 		model = ClientGroup
 		fields = '__all__'

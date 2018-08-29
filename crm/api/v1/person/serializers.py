@@ -1,13 +1,15 @@
 from rest_framework import serializers
 from person.models import *
-from api.v1.client.serializers import ClientSerializer
-from api.v1.position.serializers import PositionSerilizer
+from position.models import Position
 
 class ContactPersonSerilizer(serializers.ModelSerializer):
-    client = ClientSerializer('client')
-    user_position = PositionSerilizer('user_position')
+
+    user_position_id = serializers.PrimaryKeyRelatedField(
+        queryset=Position.objects.all(), source='user_position', write_only=True)
+
+    company_id = serializers.PrimaryKeyRelatedField(
+        queryset=Client.objects.all(), source='client', write_only=True)
+
     class Meta:
         model = ContactPerson
-        fields = ['first_name', 'middle_name', 'last_name', 'email', 'user_position', 'date_of_birth',
-                  'phone_number', 'extra_phone_number', 'other_contacts', 'timezone', 'is_active',
-                  'is_staff', 'is_superuser', 'status', 'region', 'city', 'dialing_code', 'client']
+        fields = '__all__'
