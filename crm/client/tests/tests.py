@@ -14,9 +14,34 @@ class ClientBaseTestCase(APITestCase):
 
 	def setUp(self):
 		self.api_client = APIClient()
-		self.employee = EmployeeFactory()
-		self.client_status = ClientStatusFactory()
-		self.client_group = ClientGroupFactory()
+		self.employee = EmployeeFactory(
+			first_name='Александр',
+			middle_name='Сергеевич',
+			last_name='Зубов',
+			email='trelop@gmail.com',
+			user_position=None,
+			date_of_birth=datetime.datetime.today(),
+			phone_number='9633609225',
+			extra_phone_number='9633609225',
+			other_contacts='Telegram - trelop',
+			timezone='2018-08-29T20:43:18.869351+03:00',
+			is_active=True,
+			is_staff=True,
+			is_superuser=False,
+			status='1',
+			login_skype='trelop',
+			confirmed_email=True,
+			group=None
+		)
+		self.client_status = ClientStatusFactory(
+			name='Status'
+		)
+		self.client_group = ClientGroupFactory(
+			name='Name',
+			description = 'Description',
+			created_date = '2018-08-29T20:43:18.869351+03:00',
+			employee_creator=self.employee
+		)
 		self.client = ClientFactory(
 			name='РАО «Харитонова»',
 			other_names='РАО Аристотель',
@@ -26,7 +51,7 @@ class ClientBaseTestCase(APITestCase):
 			region='Ивановская область',
 			city='Иваново',
 			website='https://google.com',
-			timezone=datetime.datetime.now(tz=tz),
+			timezone='2018-08-29T20:43:18.869351+03:00',
 			additional_info='Компания занимается добычей угля',
 			note='Клиент также работает в странах СНГ',
 			employee_manager=self.employee,
@@ -35,6 +60,9 @@ class ClientBaseTestCase(APITestCase):
 			date_of_create=datetime.date.today(),
 			date_of_edit=datetime.date.today(),
 			is_active=True,
+			client_group=[
+				self.client_group
+			]
 		)
 
 
@@ -58,10 +86,10 @@ class ClientTestCase(ClientBaseTestCase):
 		self.assertEqual(client['employee_manager']['id'], self.client.employee_manager.pk)
 		self.assertEqual(client['client_status']['id'], self.client.client_status.pk)
 		self.assertEqual(client['employee_creator']['id'], self.client.employee_creator.pk)
-		self.assertEqual(client['date_of_create'], self.client.date_of_create.strftime(date))
-		self.assertEqual(client['date_of_edit'], self.client.date_of_edit.strftime(date))
+		self.assertEqual(client['date_of_create'], self.client.date_of_create.strftime(DATE))
+		self.assertEqual(client['date_of_edit'], self.client.date_of_edit.strftime(DATE))
 		self.assertTrue(client['is_active'])
-		# self.assertEqual(client['timezone'], self.client.timezone)
+		self.assertEqual(client['timezone'], self.client.timezone)
 
 	def test_client_list_get(self):
 		url = reverse('client:client-list')
@@ -81,14 +109,12 @@ class ClientTestCase(ClientBaseTestCase):
 		self.assertEqual(client['employee_manager']['id'], self.client.employee_manager.id)
 		self.assertEqual(client['client_status']['id'], self.client.client_status.id)
 		self.assertEqual(client['employee_creator']['id'], self.client.employee_creator.id)
-		self.assertEqual(client['date_of_create'], self.client.date_of_create.strftime(date))
-		self.assertEqual(client['date_of_edit'], self.client.date_of_edit.strftime(date))
-		# self.assertEqual(client['timezone'], self.client.timezone.strftime(date_time_tz))
-		# AssertionError: '2018-08-25T19:24:37.132185+03:00' != '2018-08-25T19:24:37.132185+0300'
+		self.assertEqual(client['date_of_create'], self.client.date_of_create.strftime(DATE))
+		self.assertEqual(client['date_of_edit'], self.client.date_of_edit.strftime(DATE))
+		self.assertEqual(client['timezone'], self.client.timezone)
 		self.assertTrue(client['is_active'])
 
 	def test_client_post(self):
-		self.client_group = ClientGroupFactory()
 		url = reverse('client:client-list')
 		data = {
 			'employee_manager_id': self.employee.pk,
@@ -101,7 +127,7 @@ class ClientTestCase(ClientBaseTestCase):
 			'region': 'Ивановская область',
 			'city': 'Иваново',
 			'website': 'https://google.com',
-			'timezone': datetime.datetime.now(tz=tz),
+			'timezone': datetime.datetime.now(tz=TZ),
 			'additional_info': 'Компания занимается добычей угля',
 			'note': 'Клиент также работает в странах СНГ',
 			'client_status_id':  self.client_status.pk,
@@ -185,7 +211,7 @@ class ClientGroupTestCase(ClientBaseTestCase):
 
 		self.assertEqual(client_group['name'], self.client_group.name)
 		self.assertEqual(client_group['description'], self.client_group.description)
-		self.assertEqual(client_group['created_date'], self.client_group.created_date.strftime(date))
+		self.assertEqual(client_group['created_date'], self.client_group.created_date.strftime(DATE))
 		self.assertEqual(client_group['employee_creator'], self.client_group.employee_creator.pk)
 
 	def test_client_group_list_get(self):
@@ -196,23 +222,29 @@ class ClientGroupTestCase(ClientBaseTestCase):
 
 		self.assertEqual(client_group['name'], self.client_group.name)
 		self.assertEqual(client_group['description'], self.client_group.description)
-		self.assertEqual(client_group['created_date'], self.client_group.created_date.strftime(date))
+		self.assertEqual(client_group['created_date'], self.client_group.created_date.strftime(DATE))
 		self.assertEqual(client_group['employee_creator'], self.client_group.employee_creator.pk)
 
-	def test_client_status_post(self):
-		url = reverse('client:client_status-list')
+	def test_client_group_post(self):
+		url = reverse('client:client_group-list')
 		data = {
-			'name': 'Status'
+			'name': 'Group 0',
+			'description': 'Description',
+			'created_date': datetime.date.today(),
+			'employee_creator_id': self.employee.pk
 		}
 		response = self.api_client.post(path=url, data=data)
 
 		self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-		client_status_id = response.json().get('id')
+		client_group_id = response.json().get('id')
 
-		self.assertTrue(ClientStatus.objects.filter(pk=client_status_id).exists())
+		self.assertTrue(ClientGroup.objects.filter(pk=client_group_id).exists())
 
-		client_status = ClientStatus.objects.get(pk=client_status_id)
+		client_group = ClientGroup.objects.get(pk=client_group_id)
 
-		self.assertEqual(client_status.name, data['name'])
+		self.assertEqual(client_group.name, data['name'])
+		self.assertEqual(client_group.description, data['description'])
+		self.assertEqual(client_group.created_date, data['created_date'])
+		self.assertEqual(client_group.employee_creator_id, data['employee_creator_id'])
 

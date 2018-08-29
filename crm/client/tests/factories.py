@@ -9,7 +9,7 @@ class ClientStatusFactory(factory.DjangoModelFactory):
 	class Meta:
 		model = ClientStatus
 
-	name = factory.Faker('text', max_nb_chars=20)
+	name = factory.Faker('sentence', nb_words=4)
 
 
 class ClientGroupFactory(factory.DjangoModelFactory):
@@ -18,7 +18,7 @@ class ClientGroupFactory(factory.DjangoModelFactory):
 		model = ClientGroup
 
 	name = factory.Sequence(lambda n: "Group {0}".format(n))
-	description = factory.Faker('text', max_nb_chars=49)
+	description = factory.Faker('sentence', nb_words=4)
 	created_date = factory.Faker('iso8601')
 	employee_creator = factory.SubFactory(EmployeeFactory)
 
@@ -36,8 +36,8 @@ class ClientFactory(factory.DjangoModelFactory):
 	city = factory.Faker('city')
 	website = 'https://google.com'
 	timezone = factory.Faker('iso8601', tzinfo=pytz.utc)
-	additional_info = factory.Faker('text')
-	note = factory.Faker('text')
+	additional_info = factory.Faker('sentence', nb_words=4)
+	note = factory.Faker('sentence', nb_words=4)
 	employee_manager = factory.SubFactory(EmployeeFactory)
 	client_status = factory.SubFactory(ClientStatusFactory)
 	employee_creator = factory.SubFactory(EmployeeFactory)
@@ -54,7 +54,3 @@ class ClientFactory(factory.DjangoModelFactory):
 		if extracted:
 			for group in extracted:
 				self.client_group.add(group)
-
-class BuildClientFactory(ClientFactory):
-	class Meta:
-		strategy = factory.BUILD_STRATEGY

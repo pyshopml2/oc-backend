@@ -21,9 +21,9 @@ STATUS = (
 
 # Модель пользователя
 class User(AbstractBaseUser, PermissionsMixin):
-    first_name = models.CharField(blank=True, max_length=20)
-    middle_name = models.CharField(blank=True, max_length=20)
-    last_name = models.CharField(blank=True, max_length=20)
+    first_name = models.CharField(blank=True, max_length=50)
+    middle_name = models.CharField(blank=True, max_length=50)
+    last_name = models.CharField(blank=True, max_length=50)
     email = models.EmailField(blank=True, unique=True)
     user_position = models.ForeignKey(Position, related_name='user_position',
                                 on_delete=models.PROTECT, blank=True, null=True, verbose_name='Должность')

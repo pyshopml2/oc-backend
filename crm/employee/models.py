@@ -17,9 +17,9 @@ class Employee(User):
 
 # Модель группы сотрудников
 class EmployeeGroup(models.Model):
-    name = models.CharField(max_length=60, verbose_name='Имя группы')
-    description = models.CharField(max_length=400, verbose_name='Описание')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    name = models.CharField(max_length=50, verbose_name='Имя группы')
+    description = models.CharField(max_length=300, verbose_name='Описание')
+    created_at = models.DateTimeField(verbose_name='Дата создания')
     creator = models.ForeignKey(Employee, related_name='employee_group', on_delete=models.PROTECT, blank=True, null=True)
 
     class Meta:

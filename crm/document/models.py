@@ -8,7 +8,7 @@ STATUS = (
 
 class CatalogDocuments(models.Model):
     name = models.CharField(max_length=50, verbose_name='Наименование документа')
-    description = models.CharField(max_length=200, verbose_name='Описание')
+    description = models.CharField(max_length=300, verbose_name='Описание')
 
     class Meta:
         verbose_name = 'Наименование документа'

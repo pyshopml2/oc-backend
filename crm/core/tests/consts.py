@@ -1,6 +1,6 @@
 import pytz
 
-tz = pytz.timezone('Europe/Moscow')
+TZ = pytz.timezone('Europe/Moscow')
 
-date = '%Y-%m-%d'
-date_time_tz = '%Y-%m-%dT%H:%M:%S.%f%z'
+DATE = '%Y-%m-%d'
+DATE_TIME_TZ = '%Y-%m-%dT%H:%M:%S.%f%z'

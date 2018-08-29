@@ -17,7 +17,7 @@ STATUS = (
 )
 
 class Task(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Наименование задачи')
+    name = models.CharField(max_length=50, verbose_name='Наименование задачи')
     datetime_of_create = models.DateTimeField(verbose_name='Дата и время начала')
     date_time_todo = models.DateTimeField(verbose_name='Дата и время окончания')
     #contact_person = models.ForeignKey(ContactPerson)

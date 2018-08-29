@@ -7,6 +7,9 @@ from rest_framework.test import APITestCase
 
 from .factories import *
 
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.files import File
+
 fake = Faker()
 
 
@@ -29,7 +32,7 @@ class TaskTestCase(TaskBaseTestCase):
 		self.assertEqual(storage['middle_name'], self.storage.middle_name)
 		self.assertEqual(storage['last_name'], self.storage.last_name)
 		self.assertEqual(storage['phone_number'], self.storage.phone_number)
-		# self.assertEqual(storage['scheme'], self.storage.scheme)
+		self.assertEqual(storage['scheme'], 'http://testserver/storage/1/' + str(self.storage.scheme))
 		self.assertEqual(storage['note'], self.storage.note)
 
 	def test_storage_list_get(self):
@@ -43,22 +46,25 @@ class TaskTestCase(TaskBaseTestCase):
 		self.assertEqual(storage['middle_name'], self.storage.middle_name)
 		self.assertEqual(storage['last_name'], self.storage.last_name)
 		self.assertEqual(storage['phone_number'], self.storage.phone_number)
-		# self.assertEqual(storage['scheme'], self.storage.scheme)
+		self.assertEqual(storage['scheme'], 'http://testserver/storage/' + str(self.storage.scheme))
 		self.assertEqual(storage['note'], self.storage.note)
 
 	def test_storage_post(self):
-		url = reverse('client:client_status-list')
+		url = reverse('storage:storage-list')
+		data = File(open('tmp/trash/data.jpg', 'rb'))
+		upload_file = SimpleUploadedFile(self.storage.scheme.name, data.read(), content_type='multipart')
 		data = {
 			'name': 'Склад №2',
 			'address': 'Республика КОми',
 			'mode': 'Пн-Пт',
 			'first_name': 'Антон',
 			'middle_name': 'Сергеевич',
-			'last_name': 'Хозяинов',
+			'last_name': 'Абрамов',
 			'phone_number': '9633609225',
-			# 'scheme': self.storage.scheme,
+			'note': 'Записки',
+			'scheme': upload_file
 		}
-		response = self.client.post(path=url, data=data)
+		response = self.client.post(path=url, data=data, format='multipart')
 
 		self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -75,4 +81,4 @@ class TaskTestCase(TaskBaseTestCase):
 		self.assertEqual(storage.middle_name, data['middle_name'])
 		self.assertEqual(storage.last_name, data['last_name'])
 		self.assertEqual(storage.phone_number, data['phone_number'])
-		self.assertEqual(storage.scheme, self.storage.scheme)
+		self.assertEqual(storage.scheme, 'tmp/img/' + str(data['scheme']))

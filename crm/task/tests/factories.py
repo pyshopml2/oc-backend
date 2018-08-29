@@ -17,11 +17,11 @@ class TaskFactory(factory.DjangoModelFactory):
 	class Meta:
 		model = Task
 
-	name = factory.Faker('text')
+	name = factory.Faker('sentence', nb_words=4)
 	datetime_of_create = factory.Faker('date_time_this_month', tzinfo=pytz.UTC)
 	date_time_todo = factory.Faker('future_datetime', tzinfo=pytz.UTC)
 	status = factory.fuzzy.FuzzyChoice(STATUS_TASK)
 	priority = factory.fuzzy.FuzzyChoice(PRIORITY_TASK)
-	task_description = factory.Faker('text')
+	task_description = factory.Faker('sentence', nb_words=4)
 	task_creator = factory.SubFactory(EmployeeFactory)
 	task_executor = factory.SubFactory(EmployeeFactory)

@@ -8,8 +8,8 @@ class CatalogDocumentsFactory(factory.DjangoModelFactory):
 	class Meta:
 		model = CatalogDocuments
 
-	name = factory.Faker('text', max_nb_chars=20)
-	description = factory.Faker('text', max_nb_chars=200)
+	name = factory.Faker('sentence', nb_words=4)
+	description = factory.Faker('sentence', nb_words=4)
 
 class BuildCatalogDocumentsFactory(CatalogDocumentsFactory):
 	class Meta:

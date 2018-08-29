@@ -19,7 +19,7 @@ class EmployeeFactory(factory.DjangoModelFactory):
 	date_of_birth = factory.Faker('past_date')
 	phone_number = 9633609226
 	extra_phone_number = 9633609226
-	other_contacts = factory.Faker('text', max_nb_chars=49)
+	other_contacts = factory.Faker('sentence', nb_words=4)
 	timezone = factory.Faker('iso8601', tzinfo=pytz.utc)
 	is_active = True
 	is_staff = True
@@ -28,22 +28,17 @@ class EmployeeFactory(factory.DjangoModelFactory):
 	login_skype = factory.Faker('user_name')
 	confirmed_email = True
 	password = factory.Faker('password')
-	#group = factory.SubFactory('employee.tests.factories.EmployeeGroupFactory')
+	group = factory.SubFactory('employee.tests.factories.EmployeeGroupFactory')
 
 	class Meta:
 		model = Employee
-
-class BuildEmployeeFactory(EmployeeFactory):
-
-	class Meta:
-		strategy = factory.STUB_STRATEGY
 
 class EmployeeGroupFactory(factory.DjangoModelFactory):
 
 	class Meta:
 		model = EmployeeGroup
 
-	name = factory.Faker('text', max_nb_chars=20)
-	description = factory.Faker('text', max_nb_chars=49)
+	name = factory.Faker('sentence', nb_words=4)
+	description = factory.Faker('sentence', nb_words=4)
 	created_at = factory.Faker('iso8601')
 	creator = factory.SubFactory(EmployeeFactory)

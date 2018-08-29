@@ -6,20 +6,19 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from .factories import *
-from employee import *
 from core.tests.consts import *
 from position.tests.factories import PositionFactory
 
 fake = Faker()
 
-class EmployeeTestCase(APITestCase):
+class EmployeeBaseTestCase(APITestCase):
 
 	def setUp(self):
 		self.position = PositionFactory()
 		self.group = EmployeeGroupFactory(
 			name='Name',
 			description='This is description for this group',
-			created_at=datetime.datetime.now(),
+			created_at=datetime.datetime.now(tz=TZ),
 			creator=None
 		)
 		self.employee = EmployeeFactory(
@@ -32,7 +31,7 @@ class EmployeeTestCase(APITestCase):
 			phone_number='9633609225',
 			extra_phone_number='9633609225',
 			other_contacts='Telegram - trelop',
-			timezone=datetime.datetime.now(tz=tz),
+			timezone='2018-08-29T20:43:18.869351+03:00',
 			is_active=True,
 			is_staff=True,
 			is_superuser=False,
@@ -41,6 +40,8 @@ class EmployeeTestCase(APITestCase):
 			confirmed_email=True,
 			group=self.group
 		)
+
+class EmployeeTestCase(EmployeeBaseTestCase):
 
 	def test_employee_detail_get(self):
 		url = reverse('employee:employee-detail', kwargs={'pk': self.employee.pk})
@@ -52,11 +53,11 @@ class EmployeeTestCase(APITestCase):
 		self.assertEqual(employee['last_name'], self.employee.last_name)
 		self.assertEqual(employee['email'], self.employee.email)
 		self.assertEqual(employee['user_position']['id'], self.employee.user_position.pk)
-		self.assertEqual(employee['date_of_birth'], self.employee.date_of_birth.strftime(date))
+		self.assertEqual(employee['date_of_birth'], self.employee.date_of_birth.strftime(DATE))
 		self.assertEqual(employee['phone_number'], self.employee.phone_number)
 		self.assertEqual(employee['extra_phone_number'], self.employee.extra_phone_number)
 		self.assertEqual(employee['other_contacts'], self.employee.other_contacts)
-		# self.assertEqual(employee['timezone'], self.employee.timezone)
+		self.assertEqual(employee['timezone'], self.employee.timezone)
 		self.assertTrue(employee['is_active'])
 		self.assertTrue(employee['is_staff'])
 		self.assertFalse(employee['is_superuser'])
@@ -75,11 +76,11 @@ class EmployeeTestCase(APITestCase):
 		self.assertEqual(employee['last_name'], self.employee.last_name)
 		self.assertEqual(employee['email'], self.employee.email)
 		self.assertEqual(employee['user_position']['id'], self.employee.user_position.pk)
-		self.assertEqual(employee['date_of_birth'], self.employee.date_of_birth.strftime(date))
+		self.assertEqual(employee['date_of_birth'], self.employee.date_of_birth.strftime(DATE))
 		self.assertEqual(employee['phone_number'], self.employee.phone_number)
 		self.assertEqual(employee['extra_phone_number'], self.employee.extra_phone_number)
 		self.assertEqual(employee['other_contacts'], self.employee.other_contacts)
-		# self.assertEqual(employee['timezone'], self.employee.timezone.strftime(date))  # Проверяется только дата
+		self.assertEqual(employee['timezone'], self.employee.timezone)
 		self.assertTrue(employee['is_active'])
 		self.assertTrue(employee['is_staff'])
 		self.assertFalse(employee['is_superuser'])
@@ -100,7 +101,7 @@ class EmployeeTestCase(APITestCase):
 			'phone_number': '9633609225',
 			'extra_phone_number': '9633609225',
 			'other_contacts': 'Telegram - trelop',
-			'timezone': datetime.datetime.now(tz=tz),
+			'timezone': datetime.datetime.now(tz=TZ),
 			'is_active': True,
 			'is_staff': True,
 			'is_superuser': False,
@@ -110,10 +111,8 @@ class EmployeeTestCase(APITestCase):
 			'group_id': self.group.pk,
 			'password': 'password'
 		}
-		print(data)
 		url = reverse('employee:employee-list')
 		response = self.client.post(path=url, data=data)
-		print(response.json())
 
 		self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.data)
 
@@ -123,60 +122,58 @@ class EmployeeTestCase(APITestCase):
 
 		employee = Employee.objects.get(pk=employee_id)
 
-		self.assertEqual(employee.first_name, self.employee.first_name)
-		self.assertEqual(employee.middle_name, self.employee.middle_name)
-		self.assertEqual(employee.last_name, self.employee.last_name)
-		self.assertEqual(employee.email, email)
-		self.assertEqual(employee.group_id, self.employee.group_id)
-		self.assertEqual(employee.date_of_birth.strftime(date), self.employee.date_of_birth.strftime(date))
-		self.assertEqual(employee.phone_number, self.employee.phone_number)
-		self.assertEqual(employee.extra_phone_number, self.employee.extra_phone_number)
-		self.assertEqual(employee.other_contacts, self.employee.other_contacts)
-		# self.assertEqual(employee['timezone'], self.employee.timezone.strftime(date))  # Проверяется только дата
+		self.assertEqual(employee.first_name, data['first_name'])
+		self.assertEqual(employee.middle_name, data['middle_name'])
+		self.assertEqual(employee.last_name, data['last_name'])
+		self.assertEqual(employee.email, data['email'])
+		self.assertEqual(employee.group_id, data['group_id'])
+		self.assertEqual(employee.date_of_birth, data['date_of_birth'])
+		self.assertEqual(employee.phone_number, data['phone_number'])
+		self.assertEqual(employee.extra_phone_number, data['extra_phone_number'])
+		self.assertEqual(employee.other_contacts, data['other_contacts'])
+		self.assertEqual(employee.timezone, data['timezone'])
 		self.assertTrue(employee.is_active)
 		self.assertTrue(employee.is_staff)
 		self.assertFalse(employee.is_superuser)
-		self.assertEqual(employee.status, self.employee.status)
-		self.assertEqual(employee.login_skype, self.employee.login_skype)
-		self.assertEqual(employee.confirmed_email, self.employee.confirmed_email)
-		self.assertEqual(employee.group, self.employee.group)
+		self.assertEqual(employee.status, data['status'])
+		self.assertEqual(employee.login_skype, data['login_skype'])
+		self.assertEqual(employee.confirmed_email, data['confirmed_email'])
+		self.assertEqual(employee.group.pk, data['group_id'])
 
 
-# class EmployeeGroupTestCase(EmployeeTestCase):
-#
-#
-# 	def test_employee_group_detail_get(self):
-# 		# print(self.group.__dict__)
-# 		url = reverse('employee:employee_group-detail', kwargs={'pk': self.group.pk})
-# 		response = self.client.get(path=url)
-# 		group = response.json()
-# 		# print(response.json())
-#
-# 		self.assertEqual(group['name'], self.group.name)
-# 		self.assertEqual(group['description'], self.group.description)
-#
-# 	def test_employee_group_list_get(self):
-# 		url = reverse('employee:employee_group-list')
-# 		response = self.client.get(path=url)
-# 		group = response.json()[0]
-#
-# 		self.assertEqual(group['name'], self.group.name)
-# 		self.assertEqual(group['description'], self.group.description)
-#
-# 	def test_employee_group_post(self):
-# 		data = {
-# 			'name': 'Группа клиентов',
-# 			'description': 'Описание данной группы',
-# 			'created_at': datetime.datetime.now(),
-# 			'creator': '1'
-# 		}
-# 		url = reverse('employee:employee_group-list')
-# 		response = self.client.post(url, data)
-# 		employee_group_id = response.json().get('id')
-#
-# 		self.assertTrue(Employee.objects.filter(pk=employee_group_id).exists())
-#
-# 		employee = Employee.objects.get(pk=employee_group_id)
-# 		self.assertEqual(employee.name, self.employee.name)
-# 		self.assertEqual(employee.description, self.employee.description)
+class EmployeeGroupTestCase(EmployeeBaseTestCase):
+
+	def test_employee_group_detail_get(self):
+		url = reverse('employee:employee_group-detail', kwargs={'pk': self.group.pk})
+		response = self.client.get(path=url)
+		group = response.json()
+
+		self.assertEqual(group['name'], self.group.name)
+		self.assertEqual(group['description'], self.group.description)
+
+	def test_employee_group_list_get(self):
+		url = reverse('employee:employee_group-list')
+		response = self.client.get(path=url)
+		group = response.json()[0]
+
+		self.assertEqual(group['name'], self.group.name)
+		self.assertEqual(group['description'], self.group.description)
+
+	def test_employee_group_post(self):
+		data = {
+			'name': 'Группа клиентов',
+			'description': 'Описание данной группы',
+			'created_at': '2018-08-29T20:43:18.869351+03:00',
+			'creator_id': self.employee.pk
+		}
+		url = reverse('employee:employee_group-list')
+		response = self.client.post(url, data)
+		employee_group_id = response.json().get('id')
+
+		self.assertTrue(EmployeeGroup.objects.filter(pk=employee_group_id).exists())
+
+		employee_group = EmployeeGroup.objects.get(pk=employee_group_id)
+		self.assertEqual(employee_group.name, data['name'])
+		self.assertEqual(employee_group.description, data['description'])
+		self.assertEqual(employee_group.creator_id, data['creator_id'])
 

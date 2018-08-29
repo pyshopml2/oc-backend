@@ -7,4 +7,4 @@ class PositionFactory(factory.DjangoModelFactory):
 		model = Position
 
 	name = factory.Faker('job')
-	description = factory.Faker('text')
+	description = factory.Faker('sentence', nb_words=4)

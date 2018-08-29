@@ -17,7 +17,7 @@ class DocumentBaseTestCase(APITestCase):
 		self.document = DocumentFactory(
 			catalog_documents=self.catalog_documents,
 			status='1',
-			created_date=datetime.datetime.now()
+			created_date='2018-08-29T20:43:18.869351+03:00'
 		)
 
 class DocumentTestCase(DocumentBaseTestCase):
@@ -52,7 +52,7 @@ class DocumentTestCase(DocumentBaseTestCase):
 		data = {
 			'catalog_documents_id': self.catalog_documents.pk,
 			'status': '1',
-			'created_date': datetime.datetime.now(tz=tz)
+			'created_date': datetime.datetime.now(tz=TZ)
 		}
 		response = self.client.post(path=url, data=data, format='json')
 		self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.data)
@@ -64,7 +64,7 @@ class DocumentTestCase(DocumentBaseTestCase):
 		document = Document.objects.get(pk=document_id)
 
 		self.assertEqual(document.status, data['status'])
-		self.assertEqual(document.created_date.strftime(date), data['created_date'].strftime(date))
+		self.assertEqual(document.created_date.strftime(DATE), data['created_date'].strftime(DATE))
 		self.assertEqual(document.catalog_documents.pk, data['catalog_documents_id'])
 
 

@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from .factories import *
+from core.tests.consts import *
 from employee.tests.factories import EmployeeFactory
 
 fake = Faker()
@@ -13,8 +14,35 @@ fake = Faker()
 class TaskBaseTestCase(APITestCase):
 
 	def setUp(self):
-		self.task = TaskFactory()
-		self.employee = EmployeeFactory()
+		self.employee = EmployeeFactory(
+			first_name='Александр',
+			middle_name='Сергеевич',
+			last_name='Зубов',
+			email='trelop@gmail.com',
+			user_position=None,
+			date_of_birth=datetime.datetime.today(),
+			phone_number='9633609225',
+			extra_phone_number='9633609225',
+			other_contacts='Telegram - trelop',
+			timezone='2018-08-29T20:43:18.869351+03:00',
+			is_active=True,
+			is_staff=True,
+			is_superuser=False,
+			status='1',
+			login_skype='trelop',
+			confirmed_email=True,
+			group=None
+		)
+		self.task = TaskFactory(
+			name='Task',
+			datetime_of_create='2018-08-29T20:43:18.869351+03:00',
+			date_time_todo='2018-08-29T20:43:18.869351+03:00',
+			status='1',
+			priority='1',
+			task_description='Description',
+			task_creator=self.employee,
+			task_executor=self.employee
+		)
 
 class TaskTestCase(TaskBaseTestCase):
 
@@ -23,8 +51,8 @@ class TaskTestCase(TaskBaseTestCase):
 		response = self.client.get(path=url)
 		task = response.json()
 		self.assertEqual(task['name'], self.task.name)
-		# self.assertEqual(task['datetime_of_create'], self.task.datetime_of_create)
-		# self.assertEqual(task['date_time_todo'], self.task.date_time_todo)
+		self.assertEqual(task['datetime_of_create'], self.task.datetime_of_create)
+		self.assertEqual(task['date_time_todo'], self.task.date_time_todo)
 		self.assertEqual(task['status'], self.task.status)
 		self.assertEqual(task['priority'], self.task.priority)
 		self.assertEqual(task['task_description'], self.task.task_description)
@@ -36,25 +64,25 @@ class TaskTestCase(TaskBaseTestCase):
 		response = self.client.get(path=url)
 		task = response.json()[0]
 		self.assertEqual(task['name'], self.task.name)
-		# self.assertEqual(task['datetime_of_create'], self.task.datetime_of_create)
-		# self.assertEqual(task['date_time_todo'], self.task.date_time_todo)
+		self.assertEqual(task['datetime_of_create'], self.task.datetime_of_create)
+		self.assertEqual(task['date_time_todo'], self.task.date_time_todo)
 		self.assertEqual(task['status'], self.task.status)
 		self.assertEqual(task['priority'], self.task.priority)
 		self.assertEqual(task['task_description'], self.task.task_description)
 		self.assertEqual(task['task_creator'], self.task.task_creator.pk)
 		self.assertEqual(task['task_executor'], self.task.task_executor.pk)
 
-	def test_client_status_post(self):
-		url = reverse('client:client_status-list')
+	def test_task_post(self):
+		url = reverse('task:task-list')
 		data = {
 			'name': 'Name',
-			'datetime_of_create': datetime.datetime.now(),
-			'date_time_todo': datetime.datetime.now(),
+			'datetime_of_create': datetime.datetime.now(tz=TZ),
+			'date_time_todo': datetime.datetime.now(tz=TZ),
 			'status': '1',
 			'priority': '1',
 			'task_description': 'Description',
-			'task_creator': self.employee,
-			'task_executor': self.employee,
+			'task_creator_id': self.employee.pk,
+			'task_executor_id': self.employee.pk,
 		}
 		response = self.client.post(path=url, data=data)
 
@@ -66,11 +94,11 @@ class TaskTestCase(TaskBaseTestCase):
 
 		task = Task.objects.get(pk=task_id)
 
-		self.assertEqual(task.name, self.task.name)
-		self.assertEqual(task.datetime_of_create, self.task.datetime_of_create)
-		self.assertEqual(task.date_time_todo, self.task.date_time_todo)
-		self.assertEqual(task.status, self.task.status)
-		self.assertEqual(task.priority, self.task.priority)
-		self.assertEqual(task.task_description, self.task.task_description)
-		self.assertEqual(task.task_creator.pk, self.task.task_creator.pk)
-		self.assertEqual(task.task_executor.pk, self.task.task_executor.pk)
+		self.assertEqual(task.name, data['name'])
+		self.assertEqual(task.datetime_of_create, data['datetime_of_create'])
+		self.assertEqual(task.date_time_todo, data['date_time_todo'])
+		self.assertEqual(task.status, data['status'])
+		self.assertEqual(task.priority, data['priority'])
+		self.assertEqual(task.task_description, data['task_description'])
+		self.assertEqual(task.task_creator.pk, data['task_creator_id'])
+		self.assertEqual(task.task_executor.pk, data['task_executor_id'])

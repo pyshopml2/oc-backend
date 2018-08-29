@@ -14,16 +14,16 @@ class ClientStatus(models.Model):
         return self.name
 
 class Client(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Наименование организации')
-    other_names = models.CharField(max_length=255, blank=True, verbose_name='Другие наименования')
+    name = models.CharField(max_length=50, verbose_name='Наименование организации')
+    other_names = models.CharField(max_length=50, blank=True, verbose_name='Другие наименования')
     zip_code = models.CharField(max_length=10)
     email = models.EmailField(unique=True)
-    address = models.CharField(max_length=255, blank=True, verbose_name='Почтовый адрес')
-    region = models.CharField(max_length=255, blank=True, verbose_name='Регион')
-    city = models.CharField(max_length=255, verbose_name='Населенный пункт')
-    website = models.CharField(max_length=255, blank=True, verbose_name='Сайт')
+    address = models.CharField(max_length=100, blank=True, verbose_name='Почтовый адрес')
+    region = models.CharField(max_length=100, blank=True, verbose_name='Регион')
+    city = models.CharField(max_length=100, verbose_name='Населенный пункт')
+    website = models.CharField(max_length=50, blank=True, verbose_name='Сайт')
     timezone = models.DateTimeField(default=timezone.now, blank=True, null=True, verbose_name='Часовой пояс')
-    additional_info = models.CharField(max_length=255, blank=True, verbose_name='Дополнительная информация')
+    additional_info = models.CharField(max_length=300, blank=True, verbose_name='Дополнительная информация')
     note = models.TextField(blank=True, verbose_name='Примечание сотрудника')
     employee_manager = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='employee_manager', blank=True,
                                        null=True, verbose_name='Ответственный менеджер')
@@ -50,7 +50,7 @@ class Client(models.Model):
 
 class ClientGroup(models.Model):
     name = models.CharField(max_length=50, verbose_name='Название')
-    description = models.CharField(max_length=400, verbose_name='Описание')
+    description = models.CharField(max_length=300, verbose_name='Описание')
     created_date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     employee_creator = models.ForeignKey(Employee, on_delete=models.PROTECT, related_name='client_group', blank=True,
                                        null=True, verbose_name='Создатель')
