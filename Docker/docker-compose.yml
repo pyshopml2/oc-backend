@@ -14,12 +14,12 @@ services:
     django:
         container_name: django_server
         build:
-          context: .
-          dockerfile: Dockerfile
+          context: ..
+          dockerfile: Docker/Dockerfile
         image: owncrm
         stdin_open: true
         volumes:
-          - ./crm:/project
+          - ../crm:/project
         ports:
           - '8000:8000'
         depends_on:
