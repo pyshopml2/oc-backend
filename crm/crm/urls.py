@@ -23,9 +23,16 @@ from api.v1.position.routes import position_router
 from api.v1.person.routes import person_router
 from api.v1.storage.routes import storage_router
 from api.v1.task.routes import task_router
+from rest_framework.authtoken import views
+
+from api.v1.auth.view import obtain_auth_token
+from api.v1.task.viewsets import OwnTasks
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('own/', OwnTasks.as_view(), name='own_tasks'),
+    path('token/', obtain_auth_token, name='token'),
     path('client/', include((client_router.urls, 'client_app'), namespace='client')),
     path('document/', include((document_router.urls, 'document_app'), namespace='document')),
     path('position/', include((position_router.urls, 'position_app'), namespace='position')),
