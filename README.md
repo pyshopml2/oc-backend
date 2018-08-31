@@ -5,31 +5,27 @@
     ```
     git clone https://github.com/pyshopml2/oc-backend.git
     ```
-4. Выберем ветку master
-    ```
-    git checkout master
-    ```
-5. Построим проект и установим зависимости
+4. Построим проект и установим зависимости
     ```
     docker-compose build
     ```
-6. Запустим наш docker-compose в режиме демона
+5. Запустим наш docker-compose в режиме демона
     ```
     sudo docker-compose up -d
     ```
-7. Произведем анализ моделей
+6. Произведем анализ моделей
     ```
     sudo docker exec -it django_server python manage.py makemigrations
     ```
-8. Примененим изменения к базе данных
+7. Примененим изменения к базе данных
     ```
     sudo docker exec -it django_server python manage.py migrate
     ```
-9. Создадим пользователя с правами администратора
+8. Создадим пользователя с правами администратора
     ```
     sudo docker exec -it django_server python manage.py createsuperuser
     ```
-10. Проверим доступ к панели управления
+9. Проверим доступ к панели управления
     ```
     curl http://127.0.0.1:8000/admin
     ```
