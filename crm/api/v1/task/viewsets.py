@@ -1,4 +1,8 @@
 from rest_framework import viewsets
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+
 from task.models import *
 from .serializers import *
 
@@ -8,10 +12,12 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerilizer
 
 
-class OwnTasks(viewsets.ModelViewSet):
-    serializer_class = TaskSerilizer
+class OwnTasks(ListAPIView):
+    serializer_class = TaskSSerilizer
+    authentication_classes = (TokenAuthentication, SessionAuthentication)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        print(self.request.user)
-        user = self.request.user
-        return Task.objects.filter(task_executor=user)
+        tasks = Task.objects.filter(task_executor=self.request.user)
+        return tasks
+

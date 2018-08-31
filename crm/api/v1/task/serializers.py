@@ -14,3 +14,11 @@ class TaskSerilizer(serializers.ModelSerializer):
         model = Task
         fields = '__all__'
         depth = 1
+
+
+class TaskSSerilizer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Task
+        fields = '__all__'
+        depth = 1
