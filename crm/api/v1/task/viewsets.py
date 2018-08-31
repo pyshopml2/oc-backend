@@ -13,7 +13,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 
 
 class OwnTasks(ListAPIView):
-    serializer_class = TaskSSerilizer
+    serializer_class = TaskSerilizer
     authentication_classes = (TokenAuthentication, SessionAuthentication)
     permission_classes = (IsAuthenticated,)
 
