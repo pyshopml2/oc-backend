@@ -8,8 +8,10 @@ from rest_framework.test import APITestCase
 from .factories import *
 from core.tests.consts import *
 from employee.tests.factories import EmployeeFactory
+from employee.models import Employee
 
 fake = Faker()
+
 
 class TaskBaseTestCase(APITestCase):
 
@@ -31,7 +33,8 @@ class TaskBaseTestCase(APITestCase):
 			status='1',
 			login_skype='trelop',
 			confirmed_email=True,
-			group=None
+			group=None,
+			password='password'
 		)
 		self.task = TaskFactory(
 			name='Task',
@@ -44,7 +47,33 @@ class TaskBaseTestCase(APITestCase):
 			task_executor=self.employee
 		)
 
+
 class TaskTestCase(TaskBaseTestCase):
+
+	def test_own_task_get(self):
+		employee = Employee.objects.create_user(email='email@new.employee', password='password')
+		task = TaskFactory(
+			name='Task',
+			datetime_of_create='2018-08-29T20:43:18.869351+03:00',
+			date_time_todo='2018-08-29T20:43:18.869351+03:00',
+			status='1',
+			priority='1',
+			task_description='Description',
+			task_creator=employee,
+			task_executor=employee
+		)
+		self.client.login(email=employee.email, password='password')
+		response = self.client.get(path=reverse('own_tasks'))
+		task_ = response.json()[0]
+
+		self.assertEqual(task_['name'], task.name)
+		self.assertEqual(task_['datetime_of_create'], task.datetime_of_create)
+		self.assertEqual(task_['date_time_todo'], task.date_time_todo)
+		self.assertEqual(task_['status'], task.status)
+		self.assertEqual(task_['priority'], task.priority)
+		self.assertEqual(task_['task_description'], task.task_description)
+		self.assertEqual(task_['task_creator']['id'], task.task_creator.pk)
+		self.assertEqual(task_['task_executor']['id'], task.task_executor.pk)
 
 	def test_task_detail_get(self):
 		url = reverse('task:task-detail', kwargs={'pk': self.task.pk})
@@ -56,8 +85,8 @@ class TaskTestCase(TaskBaseTestCase):
 		self.assertEqual(task['status'], self.task.status)
 		self.assertEqual(task['priority'], self.task.priority)
 		self.assertEqual(task['task_description'], self.task.task_description)
-		self.assertEqual(task['task_creator'], self.task.task_creator.pk)
-		self.assertEqual(task['task_executor'], self.task.task_executor.pk)
+		self.assertEqual(task['task_creator']['id'], self.task.task_creator.pk)
+		self.assertEqual(task['task_executor']['id'], self.task.task_executor.pk)
 
 	def test_task_list_get(self):
 		url = reverse('task:task-list')
@@ -69,8 +98,8 @@ class TaskTestCase(TaskBaseTestCase):
 		self.assertEqual(task['status'], self.task.status)
 		self.assertEqual(task['priority'], self.task.priority)
 		self.assertEqual(task['task_description'], self.task.task_description)
-		self.assertEqual(task['task_creator'], self.task.task_creator.pk)
-		self.assertEqual(task['task_executor'], self.task.task_executor.pk)
+		self.assertEqual(task['task_creator']['id'], self.task.task_creator.pk)
+		self.assertEqual(task['task_executor']['id'], self.task.task_executor.pk)
 
 	def test_task_post(self):
 		url = reverse('task:task-list')
@@ -102,3 +131,4 @@ class TaskTestCase(TaskBaseTestCase):
 		self.assertEqual(task.task_description, data['task_description'])
 		self.assertEqual(task.task_creator.pk, data['task_creator_id'])
 		self.assertEqual(task.task_executor.pk, data['task_executor_id'])
+
