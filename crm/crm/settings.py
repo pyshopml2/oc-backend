@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'person',
     'django_extensions',
     'core',
-    'api'
+    'api',
+    'rest_framework.authtoken',
 ]
 
 GRAPH_MODELS = {
@@ -65,6 +66,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 ROOT_URLCONF = 'crm.urls'
 
