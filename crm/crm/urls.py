@@ -33,12 +33,28 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('own/', OwnTasks.as_view(), name='own_tasks'),
     path('token/', obtain_auth_token, name='token'),
-    path('client/', include((client_router.urls, 'client_app'), namespace='client')),
-    path('document/', include((document_router.urls, 'document_app'), namespace='document')),
-    path('position/', include((position_router.urls, 'position_app'), namespace='position')),
-    path('user/', include((user_router.urls, 'user_app'), namespace='user')),
-    path('employee/', include((employee_router.urls, 'employee_app'), namespace='employee')),
-    path('person/', include((person_router.urls, 'person_app'), namespace='person')),
-    path('storage/', include((storage_router.urls, 'storage_app'), namespace='storage')),
-    path('task/', include((task_router.urls, 'task_app'), namespace='task')),
+
+    path('client/', include(
+        (client_router.urls, 'client_app'), namespace='client')),
+
+    path('document/', include(
+        (document_router.urls, 'document_app'), namespace='document')),
+
+    path('position/', include(
+        (position_router.urls, 'position_app'), namespace='position')),
+
+    path('user/', include(
+        (user_router.urls, 'user_app'), namespace='user')),
+
+    path('employee/', include(
+        (employee_router.urls, 'employee_app'), namespace='employee')),
+
+    path('person/', include(
+        (person_router.urls, 'person_app'), namespace='person')),
+
+    path('storage/', include(
+        (storage_router.urls, 'storage_app'), namespace='storage')),
+
+    path('task/', include(
+        (task_router.urls, 'task_app'), namespace='task')),
 ]

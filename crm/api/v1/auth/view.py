@@ -6,6 +6,7 @@ from .serializers import AuthTokenSerializer
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
+
 class ObtainAuthToken(APIView):
     serializer_class = AuthTokenSerializer
 
@@ -13,7 +14,9 @@ class ObtainAuthToken(APIView):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
-            token, created = Token.objects.get_or_create(user=serializer.validated_data['user'])
+            token, created = Token.objects.get_or_create(
+                user=serializer.validated_data['user']
+            )
 
             if not created:
                 token.created = datetime.datetime.utcnow()

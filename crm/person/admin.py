@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import ContactPerson
 from user.admin import UserAdmin
 
+
 @admin.register(ContactPerson)
 class ContactPersonAdmin(admin.ModelAdmin):
     fieldsets = [

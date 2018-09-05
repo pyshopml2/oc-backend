@@ -9,9 +9,11 @@ from api.v1.position.serializers import PositionSerilizer
 
 
 class EmployeeGroupSerializer(serializers.ModelSerializer):
-
     creator_id = serializers.PrimaryKeyRelatedField(
-        queryset=Employee.objects.all(), source='creator', write_only=True)
+        queryset=Employee.objects.all(),
+        source='creator',
+        write_only=True
+    )
 
     class Meta:
         model = EmployeeGroup
@@ -20,15 +22,19 @@ class EmployeeGroupSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(UserSerilizer):
-
     user_position_id = serializers.PrimaryKeyRelatedField(
-        queryset=Position.objects.all(), source='user_position', write_only=True)
+        queryset=Position.objects.all(),
+        source='user_position',
+        write_only=True
+    )
 
     group_id = serializers.PrimaryKeyRelatedField(
-        queryset=EmployeeGroup.objects.all(), source='group', write_only=True)
+        queryset=EmployeeGroup.objects.all(),
+        source='group',
+        write_only=True
+    )
 
     class Meta(UserSerilizer.Meta):
         model = Employee
         fields = '__all__'
         read_only_fields = ('group',)
-

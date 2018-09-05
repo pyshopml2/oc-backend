@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Employee, EmployeeGroup
 from user.admin import UserAdmin
 
+
 @admin.register(Employee)
 class EmployeeAdmin(UserAdmin):
     fieldsets = [
@@ -13,6 +14,7 @@ class EmployeeAdmin(UserAdmin):
     fieldsets.insert(3, UserAdmin.fieldsets[2])
     fieldsets.insert(4, UserAdmin.fieldsets[3])
     fieldsets.insert(5, UserAdmin.fieldsets[4])
+
 
 @admin.register(EmployeeGroup)
 class GroupEmployeeAdmin(admin.ModelAdmin):

@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from django.utils.translation import ugettext_lazy as _
 from user.models import User
 
+
 class AuthTokenSerializer(serializers.Serializer):
     email = serializers.CharField()
     password = serializers.CharField()
@@ -26,4 +27,3 @@ class AuthTokenSerializer(serializers.Serializer):
                 raise serializers.ValidationError(msg)
         else:
             msg = _('Must include "username" and "password"')
-

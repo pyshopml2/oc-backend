@@ -8,7 +8,10 @@ class AuthTestCase(APITestCase):
 
     def test_own_task_get(self):
         password = 'Password'
-        employee = Employee.objects.create_user(email='email@new.employee', password=password)
+        employee = Employee.objects.create_user(
+            email='email@new.employee',
+            password=password
+        )
         url = reverse('token')
         data = {
             'email': employee.email,
