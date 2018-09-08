@@ -1,9 +1,29 @@
 from rest_framework import serializers
 from user.models import *
-from api.v1.position.serializers import PositionSerilizer
+from api.v1.position.serializers import PositionSerializer
 
 
-class UserSerilizer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+    """
+    retrieve:
+        Return a user instance.
+
+    list:
+        Return of all users.
+
+    create:
+        Create a user.
+
+    delete:
+        Remove an existing user.
+
+    partial_update:
+        Update one or more fields.
+
+    update:
+        Update a user.
+    """
+
     # position_name = serializers.ReadOnlyField(source='user_position.name')
     # position_name = PositionSerilizer(source='user_position')
     class Meta:

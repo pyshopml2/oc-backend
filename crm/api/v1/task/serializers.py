@@ -3,7 +3,27 @@ from employee.models import Employee
 from rest_framework import serializers
 
 
-class TaskSerilizer(serializers.ModelSerializer):
+class TaskSerializer(serializers.ModelSerializer):
+    """
+    retrieve:
+        Return a task instance.
+
+    list:
+        Return of all tasks.
+
+    create:
+        Create a task.
+
+    delete:
+        Remove an existing task.
+
+    partial_update:
+        Update one or more fields.
+
+    update:
+        Update a task.
+    """
+
     task_creator_id = serializers.PrimaryKeyRelatedField(
         queryset=Employee.objects.all(),
         source='task_creator',

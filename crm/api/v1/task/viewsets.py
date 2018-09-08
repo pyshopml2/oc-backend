@@ -10,11 +10,11 @@ from .serializers import *
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
-    serializer_class = TaskSerilizer
+    serializer_class = TaskSerializer
 
 
 class OwnTasks(ListAPIView):
-    serializer_class = TaskSerilizer
+    serializer_class = TaskSerializer
     authentication_classes = (TokenAuthentication, SessionAuthentication)
     permission_classes = (IsAuthenticated,)
 

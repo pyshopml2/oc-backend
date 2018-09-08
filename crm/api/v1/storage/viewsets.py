@@ -5,4 +5,4 @@ from .serializers import *
 
 class StorageViewSet(viewsets.ModelViewSet):
     queryset = Storage.objects.all()
-    serializer_class = StorageSerilizer
+    serializer_class = StorageSerializer

@@ -5,4 +5,4 @@ from .serializers import *
 
 class PositionViewSet(viewsets.ModelViewSet):
     queryset = Position.objects.all()
-    serializer_class = PositionSerilizer
+    serializer_class = PositionSerializer

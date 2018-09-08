@@ -2,7 +2,8 @@ from rest_framework import serializers
 from storage.models import *
 
 
-class StorageSerilizer(serializers.ModelSerializer):
+class StorageSerializer(serializers.ModelSerializer):
+
 
     class Meta:
         model = Storage

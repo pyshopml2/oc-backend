@@ -16,13 +16,15 @@ class ClientSerializer(serializers.ModelSerializer):
     employee_manager_id = serializers.PrimaryKeyRelatedField(
         queryset=Employee.objects.all(),
         source='employee_manager',
-        write_only=True
+        write_only=True,
+        help_text='ID ответственного менеджера'
     )
 
     employee_creator_id = serializers.PrimaryKeyRelatedField(
         queryset=Employee.objects.all(),
         source='employee_creator',
-        write_only=True
+        write_only=True,
+        help_text='ID ответственного менеджера'
     )
 
     client_status_id = serializers.PrimaryKeyRelatedField(
