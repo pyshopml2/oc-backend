@@ -38,8 +38,8 @@ class TaskBaseTestCase(APITestCase):
         )
         self.task = TaskFactory(
             name='Task',
-            datetime_of_create='2018-08-29T20:43:18.869351+03:00',
-            date_time_todo='2018-08-29T20:43:18.869351+03:00',
+            creation_date='2018-08-29T20:43:18.869351+03:00',
+            expiration_date='2018-08-29T20:43:18.869351+03:00',
             status='1',
             priority='1',
             task_description='Description',
@@ -56,8 +56,8 @@ class TaskTestCase(TaskBaseTestCase):
 
         task = TaskFactory(
             name='Task',
-            datetime_of_create='2018-08-29T20:43:18.869351+03:00',
-            date_time_todo='2018-08-29T20:43:18.869351+03:00',
+            creation_date='2018-08-29T20:43:18.869351+03:00',
+            expiration_date='2018-08-29T20:43:18.869351+03:00',
             status='1',
             priority='1',
             task_description='Description',
@@ -69,8 +69,8 @@ class TaskTestCase(TaskBaseTestCase):
         task_ = response.json()[0]
 
         self.assertEqual(task_['name'], task.name)
-        self.assertEqual(task_['datetime_of_create'], task.datetime_of_create)
-        self.assertEqual(task_['date_time_todo'], task.date_time_todo)
+        self.assertEqual(task_['creation_date'], task.creation_date)
+        self.assertEqual(task_['expiration_date'], task.expiration_date)
         self.assertEqual(task_['status'], task.status)
         self.assertEqual(task_['priority'], task.priority)
         self.assertEqual(task_['task_description'], task.task_description)
@@ -82,10 +82,10 @@ class TaskTestCase(TaskBaseTestCase):
         response = self.client.get(path=url)
         task = response.json()
         self.assertEqual(task['name'], self.task.name)
-        self.assertEqual(task['datetime_of_create'],
-                         self.task.datetime_of_create)
+        self.assertEqual(task['creation_date'],
+                         self.task.creation_date)
 
-        self.assertEqual(task['date_time_todo'], self.task.date_time_todo)
+        self.assertEqual(task['expiration_date'], self.task.expiration_date)
         self.assertEqual(task['status'], self.task.status)
         self.assertEqual(task['priority'], self.task.priority)
         self.assertEqual(task['task_description'], self.task.task_description)
@@ -98,10 +98,10 @@ class TaskTestCase(TaskBaseTestCase):
         response = self.client.get(path=url)
         task = response.json()[0]
         self.assertEqual(task['name'], self.task.name)
-        self.assertEqual(task['datetime_of_create'],
-                         self.task.datetime_of_create)
+        self.assertEqual(task['creation_date'],
+                         self.task.creation_date)
 
-        self.assertEqual(task['date_time_todo'], self.task.date_time_todo)
+        self.assertEqual(task['expiration_date'], self.task.expiration_date)
         self.assertEqual(task['status'], self.task.status)
         self.assertEqual(task['priority'], self.task.priority)
         self.assertEqual(task['task_description'], self.task.task_description)
@@ -113,8 +113,8 @@ class TaskTestCase(TaskBaseTestCase):
         url = reverse('task:task-list')
         data = {
             'name': 'Name',
-            'datetime_of_create': datetime.datetime.now(tz=TZ),
-            'date_time_todo': datetime.datetime.now(tz=TZ),
+            'creation_date': datetime.datetime.now(tz=TZ),
+            'expiration_date': datetime.datetime.now(tz=TZ),
             'status': '1',
             'priority': '1',
             'task_description': 'Description',
@@ -132,8 +132,8 @@ class TaskTestCase(TaskBaseTestCase):
         task = Task.objects.get(pk=task_id)
 
         self.assertEqual(task.name, data['name'])
-        self.assertEqual(task.datetime_of_create, data['datetime_of_create'])
-        self.assertEqual(task.date_time_todo, data['date_time_todo'])
+        self.assertEqual(task.creation_date, data['creation_date'])
+        self.assertEqual(task.expiration_date, data['expiration_date'])
         self.assertEqual(task.status, data['status'])
         self.assertEqual(task.priority, data['priority'])
         self.assertEqual(task.task_description, data['task_description'])

@@ -6,7 +6,7 @@ from user.models import User
 
 class ClientStatus(models.Model):
     name = models.CharField(
-        max_length=50, help_text='Наименование статуса')
+        max_length=50, help_text='Name of the status')
 
     class Meta:
         verbose_name = 'Статус клиента'
@@ -19,84 +19,84 @@ class ClientStatus(models.Model):
 class Client(models.Model):
     name = models.CharField(
         max_length=50, verbose_name='Наименование организации',
-        help_text='Наименование клиента')
+        help_text='Name of the clients')
 
     other_names = models.CharField(
         blank=True, max_length=50,
         verbose_name='Другие наименования',
-        help_text='Другие наименования клиента')
+        help_text='Other names')
 
     zip_code = models.CharField(
-        max_length=10, help_text='Почтовый код')
+        max_length=10, help_text='Zip code')
 
     email = models.EmailField(
-        unique=True, help_text='Электронная почта')
+        unique=True, help_text='Email')
 
     address = models.CharField(
         max_length=100, blank=True,
         verbose_name='Почтовый адрес',
-        help_text='Адрес клиента')
+        help_text='Client address')
 
     region = models.CharField(
         max_length=100, blank=True,
-        verbose_name='Регион', help_text='Регион')
+        verbose_name='Регион', help_text='Region')
 
     city = models.CharField(
         max_length=100,
-        verbose_name='Населенный пункт', help_text='Город')
+        verbose_name='Населенный пункт', help_text='City')
 
     website = models.CharField(
         max_length=50, blank=True,
-        verbose_name='Сайт', help_text='Сайт компании')
+        verbose_name='Сайт', help_text='Website')
 
     timezone = models.DateTimeField(
         default=timezone.now, blank=True,
         null=True, verbose_name='Часовой пояс',
-        help_text='Часовой пояс')
+        help_text='Time zone')
 
     additional_info = models.CharField(
         max_length=300, blank=True,
         verbose_name='Дополнительная информация',
-        help_text='Дополнительная информация')
+        help_text='Additional info')
 
     note = models.TextField(
         blank=True, verbose_name='Примечание сотрудника',
-        help_text='Примечание')
+        help_text='Note')
 
     employee_manager = models.ForeignKey(
         Employee, on_delete=models.PROTECT,
         related_name='employee_manager', blank=True,
         null=True, verbose_name='Ответственный менеджер',
-        help_text='Ответственный менеджер')
+        help_text='Employee who work with this client')
 
     client_status = models.ForeignKey(
         ClientStatus, on_delete=models.PROTECT,
         related_name='client_status', blank=True,
         null=True, verbose_name='Статус',
-        help_text='Статус')
+        help_text='Status client')
 
     employee_creator = models.ForeignKey(
         Employee, on_delete=models.PROTECT,
         related_name='employee_creator', blank=True,
         null=True, verbose_name='Создатель',
-        help_text='Сотрудник, создавший клиента')
+        help_text='Employee who created client')
 
     client_group = models.ManyToManyField(
         'ClientGroup', blank=True,
         related_name='client_group',
-        help_text='Группы клиента')
+        help_text='Client groups')
 
-    date_of_create = models.DateField(
+    creation_date = models.DateField(
         auto_now_add=True, verbose_name='Дата создания',
-        help_text='Дата создания')
+        help_text='Creation date')
 
-    date_of_edit = models.DateField(
+    date_last_editing = models.DateField(
         auto_now=True, verbose_name='Дата последнего редактирования',
-        help_text='Дата последнего редактирования')
+        help_text='Date of last editing')
 
     is_active = models.BooleanField(
         default=True, verbose_name='Активный аккаунт',
-        help_text='Активный аккаунт')
+        help_text='Active account')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -112,21 +112,21 @@ class Client(models.Model):
 class ClientGroup(models.Model):
     name = models.CharField(
         max_length=50, verbose_name='Название',
-        help_text='Наименование группы')
+        help_text='Name of the group')
 
     description = models.CharField(
         max_length=300, verbose_name='Описание',
-        help_text='Описание группы')
+        help_text='Description of the group')
 
     created_date = models.DateField(
         auto_now_add=True, verbose_name='Дата создания',
-        help_text='Дата создания')
+        help_text='Creation date')
 
     employee_creator = models.ForeignKey(
         Employee, related_name='client_group',
         blank=True, verbose_name='Создатель',
         on_delete=models.PROTECT, null=True,
-        help_text='Создатель группы')
+        help_text='Employee who created group')
 
     class Meta:
         verbose_name = 'Группа клиента'

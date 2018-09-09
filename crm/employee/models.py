@@ -9,12 +9,12 @@ class Employee(User):
 
     confirmed_email = models.BooleanField(
         default=False, verbose_name='Подтвержденный email',
-        help_text='Подтвержденная электронная почта')
+        help_text='Confirmed email')
 
     group = models.ForeignKey(
         'EmployeeGroup', related_name='employee_group',
         on_delete=models.PROTECT, blank=True, null=True,
-        help_text='Группа сотрудника')
+        help_text='Employee group')
 
     class Meta:
         verbose_name = 'Сотрудник'
@@ -27,17 +27,17 @@ class Employee(User):
 class EmployeeGroup(models.Model):
     name = models.CharField(
         max_length=50, verbose_name='Имя группы',
-        help_text='Имя группы')
+        help_text='Name of the group')
     description = models.CharField(
         max_length=300, verbose_name='Описание',
-        help_text='Описание группы')
-    created_at = models.DateTimeField(
+        help_text='Description of the group')
+    creation_date = models.DateTimeField(
         verbose_name='Дата создания',
         help_text='Дата создания группы')
     creator = models.ForeignKey(
         Employee, related_name='employee_group',
         on_delete=models.PROTECT, blank=True, null=True,
-        help_text='Создатель группы')
+        help_text='Employee who created group')
 
     class Meta:
         verbose_name = 'Группа'

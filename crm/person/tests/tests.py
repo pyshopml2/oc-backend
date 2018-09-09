@@ -32,8 +32,8 @@ class PersonBaseTestCase(APITestCase):
             employee_manager=None,
             client_status=None,
             employee_creator=None,
-            date_of_create=datetime.date.today(),
-            date_of_edit=datetime.date.today(),
+            creation_date=datetime.date.today(),
+            date_last_editing=datetime.date.today(),
             is_active=True,
             client_group=[]
         )

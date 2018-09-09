@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
 
-
 class ClientStatusViewSet(viewsets.ModelViewSet):
     """
     retrieve:
@@ -51,10 +50,10 @@ class ClientViewSet(viewsets.ModelViewSet):
     update:
         Update a client.
     """
+
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
 
-    # @swagger_auto_schema(auto_schema=None)
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -81,5 +80,6 @@ class ClientGroupViewSet(viewsets.ModelViewSet):
     update:
         Update a group.
     """
+
     queryset = ClientGroup.objects.all()
     serializer_class = GroupClientSerializer

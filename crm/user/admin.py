@@ -25,7 +25,8 @@ class UserAdmin(BaseUserAdmin):
          {'fields': ('user_position', 'password', 'timezone', 'status')}),
 
         ('Дополнительная информация',
-         {'fields': ('date_of_birth', 'other_contacts', 'extra_phone_number')}),
+         {'fields': (
+             'date_of_birth', 'other_contacts', 'extra_phone_number')}),
 
         ('Права и должности', {
             'fields': ('is_superuser', 'is_active', 'is_staff')

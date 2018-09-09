@@ -27,58 +27,58 @@ STATUS = (
 
 class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(
-        blank=True, max_length=50, help_text='Имя')
+        blank=True, max_length=50, help_text='First name')
     middle_name = models.CharField(
-        blank=True, max_length=50, help_text='Отчество')
+        blank=True, max_length=50, help_text='Middle name')
     last_name = models.CharField(
-        blank=True, max_length=50, help_text='Фамилия')
+        blank=True, max_length=50, help_text='Last name')
     email = models.EmailField(
-        blank=True, unique=True, help_text='Электронная почта')
+        blank=True, unique=True, help_text='Email')
     user_position = models.ForeignKey(
         Position, related_name='user_position',
         on_delete=models.PROTECT, blank=True,
         null=True, verbose_name='Должность',
-        help_text='Должность')
+        help_text='Position')
 
     date_of_birth = models.DateField(
         blank=True, null=True, verbose_name='Дата рождения',
-        help_text='Дата рождения')
+        help_text='Date of birth')
     phone_number = models.CharField(
         validators=[phone_regex], max_length=10,
         blank=True, verbose_name='Номер мобильного телефона',
-        help_text='Номер мобильного телефона')
+        help_text='Phone number')
 
     extra_phone_number = models.CharField(
         validators=[phone_regex], max_length=10,
         blank=True, verbose_name='Дополнительный номер',
-        help_text='Дополнительный номер')
+        help_text='Extra phone number')
 
     other_contacts = models.CharField(
         max_length=200, blank=True,
         verbose_name='Дополнительные контакты',
-        help_text='Допонительные контакты')
+        help_text='Additional contacts')
 
     timezone = models.DateTimeField(
         default=timezone.now, blank=True,
         null=True, verbose_name='Часовой пояс',
-        help_text='Часовой пояс')
+        help_text='Time zone')
 
     is_active = models.BooleanField(
         default=True, verbose_name='Активный аккаунт',
-        help_text='Активный аккаунт')
+        help_text='Active account')
 
     is_staff = models.BooleanField(
         default=False, verbose_name='Статус персонала',
-        help_text='Статус персонала')
+        help_text='Staff Status')
 
     is_superuser = models.BooleanField(
         default=False, verbose_name='Статус администратора',
-        help_text='Статус администратора')
+        help_text='Admin status')
 
     status = models.CharField(
         max_length=1, null=True,
         choices=STATUS, default='1',
-        help_text='Статус')
+        help_text='Status')
 
     objects = managers.UserManager()
 

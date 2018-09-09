@@ -4,36 +4,19 @@ from rest_framework import serializers
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    """
-    retrieve:
-        Return a task instance.
-
-    list:
-        Return of all tasks.
-
-    create:
-        Create a task.
-
-    delete:
-        Remove an existing task.
-
-    partial_update:
-        Update one or more fields.
-
-    update:
-        Update a task.
-    """
-
     task_creator_id = serializers.PrimaryKeyRelatedField(
         queryset=Employee.objects.all(),
         source='task_creator',
-        write_only=True
+        write_only=True,
+        help_text='Employee who created task (id) (not in get-request)'
     )
 
     task_executor_id = serializers.PrimaryKeyRelatedField(
         queryset=Employee.objects.all(),
         source='task_executor',
-        write_only=True
+        write_only=True,
+        help_text='Employee who must complete '
+                  'the task (id) (not in get-request)'
     )
 
     class Meta:

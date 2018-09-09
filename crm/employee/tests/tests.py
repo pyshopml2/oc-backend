@@ -19,7 +19,7 @@ class EmployeeBaseTestCase(APITestCase):
         self.group = EmployeeGroupFactory(
             name='Name',
             description='This is description for this group',
-            created_at=datetime.datetime.now(tz=TZ),
+            creation_date=datetime.datetime.now(tz=TZ),
             creator=None
         )
         self.employee = EmployeeFactory(
@@ -228,7 +228,7 @@ class EmployeeGroupTestCase(EmployeeBaseTestCase):
         data = {
             'name': 'Группа клиентов',
             'description': 'Описание данной группы',
-            'created_at': '2018-08-29T20:43:18.869351+03:00',
+            'creation_date': '2018-08-29T20:43:18.869351+03:00',
             'creator_id': self.employee.pk
         }
         url = reverse('employee:employee_group-list')

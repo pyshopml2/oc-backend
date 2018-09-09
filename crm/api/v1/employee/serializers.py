@@ -9,30 +9,11 @@ from api.v1.position.serializers import PositionSerializer
 
 
 class EmployeeGroupSerializer(serializers.ModelSerializer):
-    """
-    retrieve:
-        Return a group instance.
-
-    list:
-        Return of all groups.
-
-    create:
-        Create a group.
-
-    delete:
-        Remove an existing group.
-
-    partial_update:
-        Update one or more fields.
-
-    update:
-        Update a group.
-    """
-
     creator_id = serializers.PrimaryKeyRelatedField(
         queryset=Employee.objects.all(),
         source='creator',
-        write_only=True
+        write_only=True,
+        help_text='Employee who created group (id) (not in get-request)'
     )
 
     class Meta:
@@ -42,36 +23,18 @@ class EmployeeGroupSerializer(serializers.ModelSerializer):
 
 
 class EmployeeSerializer(UserSerializer):
-    """
-    retrieve:
-        Return a employee instance.
-
-    list:
-        Return of all employees.
-
-    create:
-        Create a employee.
-
-    delete:
-        Remove an existing employee.
-
-    partial_update:
-        Update one or more fields.
-
-    update:
-        Update a employee.
-    """
-
     user_position_id = serializers.PrimaryKeyRelatedField(
         queryset=Position.objects.all(),
         source='user_position',
-        write_only=True
+        write_only=True,
+        help_text='Position employee (id) (not in get-request)'
     )
 
     group_id = serializers.PrimaryKeyRelatedField(
         queryset=EmployeeGroup.objects.all(),
         source='group',
-        write_only=True
+        write_only=True,
+        help_text='Employee group (id) (not in get-request)'
     )
 
     class Meta(UserSerializer.Meta):

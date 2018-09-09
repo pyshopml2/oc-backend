@@ -10,10 +10,10 @@ STATUS = (
 class CatalogDocuments(models.Model):
     name = models.CharField(
         max_length=50, verbose_name='Наименование каталога документов',
-        help_text='Наименование каталога документа')
+        help_text='Name of the catalog')
     description = models.CharField(
         max_length=300, verbose_name='Описание каталога',
-        help_text='Описание каталога')
+        help_text='Description of the catalog')
 
     class Meta:
         verbose_name = 'Наименование документа'
@@ -28,16 +28,16 @@ class Document(models.Model):
         CatalogDocuments, blank=True,
         null=True, related_name='catalog_documents',
         on_delete=models.PROTECT, verbose_name='Документ',
-        help_text='Каталог документов')
+        help_text='Catalog')
 
     status = models.CharField(
         max_length=1, choices=STATUS,
         default='1', verbose_name='Статус',
-        help_text='Статус документа')
+        help_text='Client status')
 
     created_date = models.DateTimeField(
         auto_now_add=True, verbose_name='Дата создания',
-        help_text='Дата создания')
+        help_text='Creation date')
 
     class Meta:
         verbose_name = 'Документ'

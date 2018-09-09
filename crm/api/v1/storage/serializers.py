@@ -4,7 +4,6 @@ from storage.models import *
 
 class StorageSerializer(serializers.ModelSerializer):
 
-
     class Meta:
         model = Storage
         fields = '__all__'

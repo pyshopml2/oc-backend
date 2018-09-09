@@ -17,27 +17,30 @@ class ClientSerializer(serializers.ModelSerializer):
         queryset=Employee.objects.all(),
         source='employee_manager',
         write_only=True,
-        help_text='ID ответственного менеджера'
+        help_text='Employee who work '
+                  'with client (id) (not in get-request)'
     )
 
     employee_creator_id = serializers.PrimaryKeyRelatedField(
         queryset=Employee.objects.all(),
         source='employee_creator',
         write_only=True,
-        help_text='ID ответственного менеджера'
+        help_text='Employee who created client (id) (not in get-request)'
     )
 
     client_status_id = serializers.PrimaryKeyRelatedField(
         queryset=ClientStatus.objects.all(),
         source='client_status',
-        write_only=True
+        write_only=True,
+        help_text='Status client (id) (not in get-request)'
     )
 
     client_group_id = serializers.PrimaryKeyRelatedField(
         queryset=ClientGroup.objects.all(),
         source='client_group',
         write_only=True,
-        many=True
+        many=True,
+        help_text='Client group (id) (not in get-request)'
     )
 
     class Meta:
@@ -56,7 +59,8 @@ class GroupClientSerializer(serializers.ModelSerializer):
     employee_creator_id = serializers.PrimaryKeyRelatedField(
         queryset=Employee.objects.all(),
         source='employee_creator',
-        write_only=True
+        write_only=True,
+        help_text='Employee who created group (id) (not in get-request)'
     )
 
     class Meta:

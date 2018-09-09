@@ -57,8 +57,8 @@ class ClientBaseTestCase(APITestCase):
             employee_manager=self.employee,
             client_status=self.client_status,
             employee_creator=self.employee,
-            date_of_create=datetime.date.today(),
-            date_of_edit=datetime.date.today(),
+            creation_date=datetime.date.today(),
+            date_last_editing=datetime.date.today(),
             is_active=True,
             client_group=[
                 self.client_group
@@ -94,11 +94,11 @@ class ClientTestCase(ClientBaseTestCase):
         self.assertEqual(client['employee_creator']['id'],
                          self.client.employee_creator.pk)
 
-        self.assertEqual(client['date_of_create'],
-                         self.client.date_of_create.strftime(DATE))
+        self.assertEqual(client['creation_date'],
+                         self.client.creation_date.strftime(DATE))
 
-        self.assertEqual(client['date_of_edit'],
-                         self.client.date_of_edit.strftime(DATE))
+        self.assertEqual(client['date_last_editing'],
+                         self.client.date_last_editing.strftime(DATE))
         self.assertTrue(client['is_active'])
         self.assertEqual(client['timezone'], self.client.timezone)
 
@@ -128,11 +128,11 @@ class ClientTestCase(ClientBaseTestCase):
         self.assertEqual(client['employee_creator']['id'],
                          self.client.employee_creator.id)
 
-        self.assertEqual(client['date_of_create'],
-                         self.client.date_of_create.strftime(DATE))
+        self.assertEqual(client['creation_date'],
+                         self.client.creation_date.strftime(DATE))
 
-        self.assertEqual(client['date_of_edit'],
-                         self.client.date_of_edit.strftime(DATE))
+        self.assertEqual(client['date_last_editing'],
+                         self.client.date_last_editing.strftime(DATE))
 
         self.assertEqual(client['timezone'], self.client.timezone)
         self.assertTrue(client['is_active'])
@@ -154,8 +154,8 @@ class ClientTestCase(ClientBaseTestCase):
             'additional_info': 'Компания занимается добычей угля',
             'note': 'Клиент также работает в странах СНГ',
             'client_status_id':  self.client_status.pk,
-            'date_of_create': datetime.date.today(),
-            'date_of_edit': datetime.date.today(),
+            'creation_date': datetime.date.today(),
+            'date_last_editing': datetime.date.today(),
             'is_active': True,
             'client_group_id': [
                 self.client_group.pk
@@ -185,8 +185,8 @@ class ClientTestCase(ClientBaseTestCase):
         self.assertEqual(client.additional_info, data['additional_info'])
         self.assertEqual(client.note, data['note'])
         self.assertEqual(client.client_status_id, self.client_status.id)
-        self.assertEqual(client.date_of_create, data['date_of_create'])
-        self.assertEqual(client.date_of_edit, data['date_of_edit'])
+        self.assertEqual(client.creation_date, data['creation_date'])
+        self.assertEqual(client.date_last_editing, data['date_last_editing'])
         self.assertEqual(client.is_active, data['is_active'])
         self.assertEqual(client.client_group.instance.name, data['name'])
 

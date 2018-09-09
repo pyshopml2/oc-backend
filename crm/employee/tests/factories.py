@@ -42,5 +42,5 @@ class EmployeeGroupFactory(factory.DjangoModelFactory):
 
     name = factory.Faker('sentence', nb_words=4)
     description = factory.Faker('sentence', nb_words=4)
-    created_at = factory.Faker('iso8601')
+    creation_date = factory.Faker('iso8601')
     creator = factory.SubFactory(EmployeeFactory)

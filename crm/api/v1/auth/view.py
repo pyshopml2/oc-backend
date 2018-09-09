@@ -8,6 +8,10 @@ from rest_framework.authtoken.models import Token
 
 
 class ObtainAuthToken(APIView):
+    """
+    post:
+        Create new token
+    """
     serializer_class = AuthTokenSerializer
 
     def post(self, request):

@@ -43,8 +43,8 @@ class ClientFactory(factory.DjangoModelFactory):
     employee_manager = factory.SubFactory(EmployeeFactory)
     client_status = factory.SubFactory(ClientStatusFactory)
     employee_creator = factory.SubFactory(EmployeeFactory)
-    date_of_create = factory.Faker('past_date')
-    date_of_edit = factory.Faker('date')
+    creation_date = factory.Faker('past_date')
+    date_last_editing = factory.Faker('date')
     is_active = True
     client_group = factory.SubFactory(ClientGroupFactory)
 

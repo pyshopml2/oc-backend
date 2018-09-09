@@ -40,7 +40,7 @@ class EmployeeGroupFactory(factory.DjangoModelFactory):
 
     name = factory.Sequence(lambda n: "Group {}".format(n))
     description = factory.Faker('text')
-    created_at = factory.Faker('iso8601')
+    creation_date = factory.Faker('iso8601')
     # creator
 
 
@@ -158,8 +158,8 @@ class ClientFactory(factory.DjangoModelFactory):
     employee_manager = factory.SubFactory(EmployeeFactory)
     client_status = factory.SubFactory(ClientStatusFactory)
     employee_creator = factory.SubFactory(EmployeeFactory)
-    date_of_create = factory.Faker('past_date')
-    date_of_edit = factory.Faker('date')
+    creation_date = factory.Faker('past_date')
+    date_last_editing = factory.Faker('date')
     is_active = True
 
     @factory.post_generation
@@ -209,8 +209,8 @@ class TaskFactory(factory.DjangoModelFactory):
         model = Task
 
     name = factory.Faker('text')
-    datetime_of_create = factory.Faker('date_time_this_month', tzinfo=pytz.UTC)
-    date_time_todo = factory.Faker('future_datetime', tzinfo=pytz.UTC)
+    creation_date = factory.Faker('date_time_this_month', tzinfo=pytz.UTC)
+    expiration_date = factory.Faker('future_datetime', tzinfo=pytz.UTC)
     status = factory.fuzzy.FuzzyChoice(STATUS_TASK)
     priority = factory.fuzzy.FuzzyChoice(PRIORITY_TASK)
     task_description = factory.Faker('text')
