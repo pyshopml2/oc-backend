@@ -1,5 +1,8 @@
-from django.contrib.auth.models import BaseUserManager
+from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import BaseUserManager
+
+from temp_token.models import TempToken
 
 
 class UserManager(BaseUserManager):
@@ -18,11 +21,14 @@ class UserManager(BaseUserManager):
             password = password
         else:
             password = BaseUserManager().make_random_password()
-            subject = 'qwe'
-            message = password
-            user.email_user(subject=subject, message=message)
         user.set_password(password)
         user.save(using=self._db)
+
+        token = TempToken.objects.create(user=user, active=True)
+
+        subject = 'subject'
+        message = 'password: ' + password + ';' + 'token:' + token.token
+        user.email_user(subject=subject, message=message)
         return user
 
     def create_superuser(self, password, email):

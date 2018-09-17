@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'core',
     'api',
     'rest_framework.authtoken',
+    'temp_token'
 ]
 
 GRAPH_MODELS = {
