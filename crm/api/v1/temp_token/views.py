@@ -38,9 +38,6 @@ class TempTokenView(APIView):
 
     def check(self, temp_token):
         temp_token = TempToken.objects.get(token=temp_token)
-        print(temp_token.active)
-        print(datetime.datetime.now().strftime(DATE_TIME_TZ) <
-                temp_token.expiration_date.strftime(DATE_TIME_TZ))
         if datetime.datetime.now().strftime(DATE_TIME_TZ) < \
                 temp_token.expiration_date.strftime(DATE_TIME_TZ) \
                 and temp_token.active:
