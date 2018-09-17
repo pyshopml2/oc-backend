@@ -31,30 +31,3 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-
-
-class OwnTasks(ListAPIView):
-    """
-    list:
-        Return of all tasks.
-
-    create:
-        Create a task.
-
-    delete:
-        Remove an existing task.
-
-    partial_update:
-        Update one or more fields.
-
-    update:
-        Update a task.
-    """
-
-    serializer_class = TaskSerializer
-    authentication_classes = (TokenAuthentication, SessionAuthentication)
-    permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        tasks = Task.objects.filter(task_executor=self.request.user)
-        return tasks
