@@ -2,43 +2,18 @@ import datetime
 
 from rest_framework import status
 from rest_framework.views import APIView
-from .serializers import AuthTokenSerializer, \
-    ResetPasswordSerializer
+from .serializers import ResetPasswordSerializer
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
-
 from rest_framework import authentication
 
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode
+
+from django.http import HttpResponse
+
 User = get_user_model()
-
-
-class ObtainAuthToken(APIView):
-    """
-    post:
-        Create new token
-    """
-    serializer_class = AuthTokenSerializer
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid():
-            token, created = Token.objects.get_or_create(
-                user=serializer.validated_data['user']
-            )
-
-            if not created:
-                token.created = datetime.datetime.utcnow()
-                token.save()
-
-            return Response({'token': token.key})
-        return Response(
-            serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-obtain_auth_token = ObtainAuthToken.as_view()
 
 
 class ResetPassword(APIView):
@@ -65,3 +40,29 @@ class ResetPassword(APIView):
 
 
 reset_password = ResetPassword.as_view()
+
+
+class ConfirmEmail(APIView):
+    """
+    get:
+        Confirm user email
+    """
+
+    def get(self, request, **kwargs):
+        decoded = kwargs.get('decoded')
+        try:
+            user_id = force_text(urlsafe_base64_decode(decoded.encode()))
+            user = User.objects.get(id=user_id)
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+            return HttpResponse('User is not fouZnd')
+
+        if user is not None:
+            user.confirmed_email = True
+            user.save()
+            return HttpResponse('Thank you for your email confirmation.')
+        else:
+            return HttpResponse('Email confirmation link is invalid!')
+
+
+confirm_email = ConfirmEmail.as_view()
