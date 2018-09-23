@@ -7,10 +7,6 @@ class Employee(User):
         max_length=50, blank=True, verbose_name='Skype',
         help_text='Skype')
 
-    confirmed_email = models.BooleanField(
-        default=False, verbose_name='Подтвержденный email',
-        help_text='Confirmed email')
-
     group = models.ForeignKey(
         'EmployeeGroup', related_name='employee_group',
         on_delete=models.PROTECT, blank=True, null=True,
