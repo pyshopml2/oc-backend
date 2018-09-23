@@ -50,33 +50,6 @@ class TaskBaseTestCase(APITestCase):
 
 class TaskTestCase(TaskBaseTestCase):
 
-    def test_own_task_get(self):
-        employee = Employee.objects.create_user(
-            email='email@new.employee', password='password')
-
-        task = TaskFactory(
-            name='Task',
-            creation_date='2018-08-29T20:43:18.869351+03:00',
-            expiration_date='2018-08-29T20:43:18.869351+03:00',
-            status='1',
-            priority='1',
-            task_description='Description',
-            task_creator=employee,
-            task_executor=employee
-        )
-        self.client.login(email=employee.email, password='password')
-        response = self.client.get(path=reverse('own_tasks'))
-        task_ = response.json()[0]
-
-        self.assertEqual(task_['name'], task.name)
-        self.assertEqual(task_['creation_date'], task.creation_date)
-        self.assertEqual(task_['expiration_date'], task.expiration_date)
-        self.assertEqual(task_['status'], task.status)
-        self.assertEqual(task_['priority'], task.priority)
-        self.assertEqual(task_['task_description'], task.task_description)
-        self.assertEqual(task_['task_creator']['id'], task.task_creator.pk)
-        self.assertEqual(task_['task_executor']['id'], task.task_executor.pk)
-
     def test_task_detail_get(self):
         url = reverse('task:task-detail', kwargs={'pk': self.task.pk})
         response = self.client.get(path=url)
