@@ -1,8 +1,8 @@
-# import os
-# import django
-#
-# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crm.settings')
-# django.setup()
+import os
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crm.settings')
+django.setup()
 
 import pytz
 
@@ -20,8 +20,6 @@ from user.models import STATUS as user_status
 from document.models import STATUS as document_status
 from task.models import PRIORITY as task_prioity
 from task.models import STATUS as task_status
-
-# *
 
 
 class PositionFactory(factory.DjangoModelFactory):
