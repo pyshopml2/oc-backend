@@ -1,8 +1,10 @@
-from rest_framework.authtoken.models import Token
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import BaseUserManager
 
 from temp_token.models import TempToken
+from auth.email_confirmation import CipherEmail
+
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 
 class UserManager(BaseUserManager):
@@ -26,8 +28,14 @@ class UserManager(BaseUserManager):
 
         token = TempToken.objects.create(user=user, active=True)
 
+        ce = urlsafe_base64_encode(force_bytes(user.pk)).decode('utf-8')
+
         subject = 'subject'
-        message = 'password: ' + password + ';' + 'token:' + token.token
+        message = {
+            'password': password,
+            'token': token.token,
+            'confirmation_email': ce
+        }
         user.email_user(subject=subject, message=message)
         return user
 
