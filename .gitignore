@@ -7,7 +7,7 @@ local_settings.py
 tmp/
 migrations/
 ### Venv ###
-venv_owncrm/*
+venv/*
 
 ### DB ###
 psql-data/*
