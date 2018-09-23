@@ -1,13 +1,12 @@
 from rest_framework import views
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from task.models import Task
 from client.models import Client
 from employee.models import Employee
-
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication, \
-    SessionAuthentication
 
 from api.v1.task.serializers import TaskSerializer
 from api.v1.client.serializers import ClientSerializer
@@ -16,8 +15,7 @@ from api.v1.employee.serializers import EmployeeSerializer
 
 class PersonalAccountViewSet(views.APIView):
 
-    authentication_classes = (
-        TokenAuthentication, SessionAuthentication)
+    authentication_classes = (SessionAuthentication, JWTAuthentication)
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
