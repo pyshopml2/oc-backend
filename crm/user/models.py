@@ -75,6 +75,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=False, verbose_name='Статус администратора',
         help_text='Admin status')
 
+    confirmed_email = models.BooleanField(
+        default=False, verbose_name='Подтвержденный email',
+        help_text='Confirmed email')
+
     status = models.CharField(
         max_length=1, null=True,
         choices=STATUS, default='1',
