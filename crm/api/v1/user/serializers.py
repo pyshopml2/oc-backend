@@ -10,3 +10,5 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
         depth = 1
+
+# TODO: add read only for password
