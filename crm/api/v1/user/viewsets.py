@@ -1,5 +1,7 @@
-from .serializers import *
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+
+from .serializers import UserSerializer, User
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -25,3 +27,17 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            email = serializer.validated_data.get('email')
+            first_name = serializer.validated_data.get('first_name')
+            middle_name = serializer.validated_data.get('middle_name')
+            last_name = serializer.validated_data.get('last_name')
+            User.objects.create_user(email=email, first_name=first_name,
+                                     middle_name=middle_name, last_name=last_name)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=400)
+

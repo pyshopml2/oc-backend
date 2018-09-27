@@ -1,6 +1,6 @@
 from rest_framework import routers
-from .viewsets import *
 
+from .viewsets import *
 
 client_router = routers.SimpleRouter()
 client_router.register(

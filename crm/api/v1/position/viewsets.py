@@ -1,6 +1,7 @@
 from rest_framework import viewsets
-from position.models import *
-from .serializers import *
+
+from position.models import Position
+from .serializers import PositionSerializer
 
 
 class PositionViewSet(viewsets.ModelViewSet):

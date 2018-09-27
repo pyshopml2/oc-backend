@@ -1,9 +1,11 @@
 import os
 import binascii
+import uuid
 from datetime import datetime, timedelta
 
 from django.db import models
-from crm import settings
+from django.conf import settings
+
 from core.tests.consts import TZ
 
 
@@ -43,3 +45,11 @@ class TempToken(models.Model):
 
     def __str__(self):
         return self.token
+
+
+class EmailToken(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='email_token',
+                             on_delete=models.CASCADE)
+    token = models.UUIDField(default=uuid.uuid4, editable=False,
+                             verbose_name='Токен для подтверждения email',
+                             help_text='Token for confirmation email')

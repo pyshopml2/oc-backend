@@ -1,11 +1,7 @@
 from rest_framework import viewsets
-from rest_framework.generics import ListAPIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication, \
-    SessionAuthentication
 
-from task.models import *
-from .serializers import *
+from task.models import Task
+from .serializers import TaskSerializer
 
 
 class TaskViewSet(viewsets.ModelViewSet):

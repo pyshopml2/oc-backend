@@ -1,16 +1,16 @@
-from django.conf import settings
-
 from django.db import models
 from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.core.validators import RegexValidator
-from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from . import managers
 from django.core.mail import send_mail
+
+from . import managers
 from position.models import Position
+from temp_token.models import EmailToken, TempToken
+
 
 phone_regex = RegexValidator(
     regex=r'^\+?1?\d{10}$',
@@ -93,14 +93,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
-    # Отправка письма пользователю
-    def email_user(self, subject, message, from_email=None, **kwargs):
-        send_mail(subject, message, from_email, [self.email], **kwargs)
+    def email_user(self, subject, message, from_email='exampl@gmail.com'):
+        send_mail(subject, message, from_email, ['exampl@gmail.com'])
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        return '{} {}'.format(self.first_name, self.last_name)
 
-    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-    def create_auth_token(sender, instance=None, created=False, **kwargs):
-        if created:
-            Token.objects.create(user=instance)
+

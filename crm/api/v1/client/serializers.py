@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from client.models import *
+
 from person.models import ContactPerson
 from employee.models import Employee
-from client.models import *
+from client.models import ClientStatus, ClientGroup, Client
 
 
 class ClientStatusSerializer(serializers.ModelSerializer):

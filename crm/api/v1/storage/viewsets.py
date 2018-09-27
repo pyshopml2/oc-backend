@@ -1,6 +1,7 @@
 from rest_framework import viewsets
-from storage.models import *
-from .serializers import *
+
+from storage.models import Storage
+from .serializers import StorageSerializer
 
 
 class StorageViewSet(viewsets.ModelViewSet):

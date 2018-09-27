@@ -1,4 +1,5 @@
 from django.db import models
+
 from user.models import User
 from client.models import Client
 
@@ -23,3 +24,6 @@ class ContactPerson(User):
     class Meta:
         verbose_name = 'Контактное лицо'
         verbose_name_plural = 'Контактные лица'
+
+
+# TODO Groups

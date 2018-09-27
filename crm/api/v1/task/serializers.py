@@ -1,6 +1,7 @@
-from task.models import *
-from employee.models import Employee
 from rest_framework import serializers
+
+from task.models import Task
+from employee.models import Employee
 
 
 class TaskSerializer(serializers.ModelSerializer):

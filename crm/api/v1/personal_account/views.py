@@ -7,7 +7,6 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from task.models import Task
 from client.models import Client
 from employee.models import Employee
-
 from api.v1.task.serializers import TaskSerializer
 from api.v1.client.serializers import ClientSerializer
 from api.v1.employee.serializers import EmployeeSerializer

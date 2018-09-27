@@ -7,11 +7,11 @@ from api.v1.employee.routes import employee_router
 from api.v1.position.routes import position_router
 from api.v1.person.routes import person_router
 from api.v1.storage.routes import storage_router
-from api.v1.temp_token.views import temporary_auth_token
+from api.v1.temp_token.views import TempTokenView
 from api.v1.task.routes import task_router
 from api.v1.personal_account.views import personal_account
 
-from api.v1.auth.view import reset_password, confirm_email
+from api.v1.auth.views import ResetPassword, ConfirmEmail
 
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -57,12 +57,12 @@ urlpatterns = [
         'redoc', cache_timeout=0), name='schema-redoc'),
 
 
-    path('auth/confirm-email/<str:decoded>', confirm_email, name='confirm-email'),
+    path('auth/confirm-email/<str:encoded_id>/<str:token>/', ConfirmEmail.as_view(), name='confirm-email'),
 
-    path('auth/reset-password/', reset_password, name='reset-password'),
+    path('auth/reset-password/', ResetPassword.as_view(), name='reset-password'),
 
 
-    path('temp-token/<str:token>/', temporary_auth_token, name='temp_token'),
+    path('temp-token/<str:token>/', TempTokenView.as_view(), name='temp_token'),
 
 
     path('admin/', admin.site.urls),

@@ -7,10 +7,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 
-from temp_token.models import TempToken
+from temp_token.models import TempToken, EmailToken
 from core.tests.consts import DATE_TIME_TZ
 from api.v1.user.serializers import UserSerializer
-
 
 User = get_user_model()
 
@@ -30,12 +29,13 @@ class TempTokenView(APIView):
                     headers={'refresh': refresh_token, 'access': access_token},
                     status=status.HTTP_200_OK)
             else:
-                return Response('Token is not active or time expired')
+                return Response({'detail': 'Token is not active or time expired'},
+                                status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
-            return Response(data='User does not exist',
+            return Response(data={'detail': 'User does not exist'},
                             status=status.HTTP_400_BAD_REQUEST)
         except TempToken.DoesNotExist:
-            return Response(data='Token does not exist',
+            return Response(data={'detail': 'Token is invalid'},
                             status=status.HTTP_400_BAD_REQUEST)
 
     def check_availability(self, temp_token):
@@ -48,6 +48,3 @@ class TempTokenView(APIView):
             return True
         else:
             return False
-
-
-temporary_auth_token = TempTokenView.as_view()
