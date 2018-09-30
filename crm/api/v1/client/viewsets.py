@@ -54,11 +54,6 @@ class ClientViewSet(viewsets.ModelViewSet):
     queryset = models.Client.objects.all()
     serializer_class = serializers.ClientSerializer
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
-
 
 class ClientGroupViewSet(viewsets.ModelViewSet):
     """
