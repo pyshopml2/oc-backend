@@ -1,4 +1,5 @@
 import factory
+
 from position.models import Position
 
 

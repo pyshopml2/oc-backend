@@ -1,6 +1,6 @@
 from django.db import models
+
 from employee.models import Employee
-from person.models import ContactPerson
 
 PRIORITY = (
     ('1', 'Высокий'),

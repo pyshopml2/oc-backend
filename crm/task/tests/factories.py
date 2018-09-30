@@ -3,19 +3,17 @@ import pytz
 import factory.fuzzy
 import factory
 
-from task.models import Task
-from task.models import STATUS as task_status
-from task.models import PRIORITY as task_prioity
+from task import models
 from employee.tests.factories import EmployeeFactory
 
-PRIORITY_TASK = [x[0] for x in task_prioity]
-STATUS_TASK = [x[0] for x in task_status]
+PRIORITY_TASK = [x[0] for x in models.PRIORITY]
+STATUS_TASK = [x[0] for x in models.STATUS]
 
 
 class TaskFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Task
+        model = models.Task
 
     name = factory.Faker('sentence', nb_words=4)
     creation_date = factory.Faker(

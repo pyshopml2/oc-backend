@@ -1,7 +1,7 @@
+from . import models
 from django.contrib import admin
-from .models import *
 
 
-@admin.register(Storage)
+@admin.register(models.Storage)
 class StorageAdmin(admin.ModelAdmin):
     pass

@@ -1,13 +1,13 @@
 from django.contrib import admin
 
-from .models import TempToken, EmailToken
+from . import models
 
 
-@admin.register(TempToken)
+@admin.register(models.TempToken)
 class TempTokenAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(EmailToken)
+@admin.register(models.EmailToken)
 class EmailTokenAdmin(admin.ModelAdmin):
     pass

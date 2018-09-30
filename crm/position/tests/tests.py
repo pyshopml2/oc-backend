@@ -1,11 +1,10 @@
-import datetime
-
 from faker import Faker
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from .factories import *
+from . import factories
+from position.models import Position
 
 fake = Faker()
 
@@ -13,7 +12,7 @@ fake = Faker()
 class PositionBaseTestCase(APITestCase):
 
     def setUp(self):
-        self.position = PositionFactory()
+        self.position = factories.PositionFactory()
 
 
 class PositionTestCase(PositionBaseTestCase):

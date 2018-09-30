@@ -5,10 +5,10 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from .factories import *
+from . import factories
+from ..models import Task
 from core.tests.consts import *
 from employee.tests.factories import EmployeeFactory
-from employee.models import Employee
 
 fake = Faker()
 
@@ -36,7 +36,7 @@ class TaskBaseTestCase(APITestCase):
             group=None,
             password='password'
         )
-        self.task = TaskFactory(
+        self.task = factories.TaskFactory(
             name='Task',
             creation_date='2018-08-29T20:43:18.869351+03:00',
             expiration_date='2018-08-29T20:43:18.869351+03:00',

@@ -1,14 +1,14 @@
 import pytz
 
-import factory
 import factory.fuzzy
+import factory
 
-from person.models import *
-from user.tests.factories import *
-from user.models import STATUS as user_status
 from client.tests.factories import ClientFactory
+from person.models import ContactPerson
+from user.tests.factories import PositionFactory
+from user.models import STATUS
 
-STATUS_USER = [x[0] for x in user_status]
+STATUS_USER = [x[0] for x in STATUS]
 
 
 class PersonFactory(factory.DjangoModelFactory):

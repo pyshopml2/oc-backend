@@ -5,9 +5,10 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from .factories import *
-from core.tests.consts import *
+from . import factories
 from client.tests.factories import ClientFactory
+from core.tests.consts import TZ, DATE
+from person.models import ContactPerson
 from position.tests.factories import PositionFactory
 
 fake = Faker()
@@ -37,7 +38,7 @@ class PersonBaseTestCase(APITestCase):
             is_active=True,
             client_group=[]
         )
-        self.person = PersonFactory(
+        self.person = factories.PersonFactory(
             first_name='Александр',
             middle_name='Сергеевич',
             last_name='Зубов',

@@ -8,13 +8,14 @@ import pytz
 
 import factory.fuzzy
 import factory
-from client.models import *
-from document.models import *
-from employee.models import *
-from person.models import *
-from position.models import *
-from storage.models import *
-from task.models import *
+
+from client import models as c_models
+from document import models as d_models
+from employee import models as e_models
+from person import models as p_models
+from position import models as pos_models
+from storage import models as s_models
+from task import models as t_models
 
 from user.models import STATUS as user_status
 from document.models import STATUS as document_status
@@ -25,7 +26,7 @@ from task.models import STATUS as task_status
 class PositionFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Position
+        model = pos_models.Position
 
     name = factory.Faker('job')
     description = factory.Faker('text')
@@ -34,7 +35,7 @@ class PositionFactory(factory.DjangoModelFactory):
 class EmployeeGroupFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = EmployeeGroup
+        model = e_models.EmployeeGroup
 
     name = factory.Sequence(lambda n: "Group {}".format(n))
     description = factory.Faker('text')
@@ -45,7 +46,7 @@ class EmployeeGroupFactory(factory.DjangoModelFactory):
 class ClientStatusFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = ClientStatus
+        model = c_models.ClientStatus
 
     name = factory.Faker('text', max_nb_chars=20)
 
@@ -53,7 +54,7 @@ class ClientStatusFactory(factory.DjangoModelFactory):
 class CatalogDocumentsFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = CatalogDocuments
+        model = d_models.CatalogDocuments
 
     name = factory.Faker('text', max_nb_chars=20)
     description = factory.Faker('text', max_nb_chars=200)
@@ -62,7 +63,7 @@ class CatalogDocumentsFactory(factory.DjangoModelFactory):
 class StorageFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Storage
+        model = s_models.Storage
 
     name = factory.Faker('text', max_nb_chars=20)
     address = factory.Faker('text', max_nb_chars=20)
@@ -86,7 +87,7 @@ STATUS_DOCUMENT = [x[0] for x in document_status]
 class DocumentFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Document
+        model = d_models.Document
 
     catalog_documents = factory.SubFactory(CatalogDocumentsFactory)
     status = factory.fuzzy.FuzzyChoice(STATUS_DOCUMENT)
@@ -101,7 +102,7 @@ STATUS_USER = [x[0] for x in user_status]
 class EmployeeFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Employee
+        model = e_models.Employee
 
     first_name = factory.Faker('first_name')
     middle_name = factory.Faker('first_name')
@@ -125,7 +126,7 @@ class EmployeeFactory(factory.DjangoModelFactory):
 class ClientGroupFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = ClientGroup
+        model = c_models.ClientGroup
 
     name = factory.Sequence(lambda n: "Group {0}".format(n))
     description = factory.Faker('text')
@@ -139,7 +140,7 @@ ClientGroupFactory()
 class ClientFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Client
+        model = c_models.Client
 
     name = factory.Faker('company')
     other_names = factory.Faker('company')
@@ -173,7 +174,7 @@ class ClientFactory(factory.DjangoModelFactory):
 class PersonFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = ContactPerson
+        model = p_models.ContactPerson
 
     first_name = factory.Faker('first_name')
     middle_name = factory.Faker('first_name')
@@ -204,7 +205,7 @@ STATUS_TASK = [x[0] for x in task_status]
 class TaskFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Task
+        model = t_models.Task
 
     name = factory.Faker('text')
     creation_date = factory.Faker('date_time_this_month', tzinfo=pytz.UTC)

@@ -1,6 +1,6 @@
 import factory
 
-from position.models import *
+from position.models import Position
 
 
 class PositionFactory(factory.DjangoModelFactory):

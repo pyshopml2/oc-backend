@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import ContactPerson
+
+from . import models
 from user.admin import UserAdmin
 
 
-@admin.register(ContactPerson)
+@admin.register(models.ContactPerson)
 class ContactPersonAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Адрес', {'fields': ['region', 'city', 'dialing_code', 'status']}),

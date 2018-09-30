@@ -1,12 +1,13 @@
 import datetime
 
-from faker import Faker
 from django.urls import reverse
+from faker import Faker
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from .factories import *
-from core.tests.consts import *
+from . import factories
+from employee.models import Employee, EmployeeGroup
+from core.tests.consts import TZ, DATE
 from position.tests.factories import PositionFactory
 
 fake = Faker()
@@ -16,13 +17,13 @@ class EmployeeBaseTestCase(APITestCase):
 
     def setUp(self):
         self.position = PositionFactory()
-        self.group = EmployeeGroupFactory(
+        self.group = factories.EmployeeGroupFactory(
             name='Name',
             description='This is description for this group',
             creation_date=datetime.datetime.now(tz=TZ),
             creator=None
         )
-        self.employee = EmployeeFactory(
+        self.employee = factories.EmployeeFactory(
             first_name='Александр',
             middle_name='Сергеевич',
             last_name='Зубов',

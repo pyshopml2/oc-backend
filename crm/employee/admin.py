@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Employee, EmployeeGroup
+
+from . import models
 from user.admin import UserAdmin
 
 
-@admin.register(Employee)
+@admin.register(models.Employee)
 class EmployeeAdmin(UserAdmin):
     fieldsets = [
         (None, {'fields': ['login_skype']}),
@@ -16,6 +17,6 @@ class EmployeeAdmin(UserAdmin):
     fieldsets.insert(5, UserAdmin.fieldsets[4])
 
 
-@admin.register(EmployeeGroup)
+@admin.register(models.EmployeeGroup)
 class GroupEmployeeAdmin(admin.ModelAdmin):
     pass

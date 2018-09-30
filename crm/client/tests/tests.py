@@ -7,7 +7,7 @@ from rest_framework import test
 from client.models import Client, \
     ClientGroup, ClientStatus
 from client.tests.factories import *
-from core.tests.consts import DATE
+from core.tests.consts import DATE, TZ
 from employee.tests.factories import *
 
 

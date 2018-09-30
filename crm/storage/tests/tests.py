@@ -1,14 +1,14 @@
-import datetime
-
 from faker import Faker
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-
-from .factories import *
-
-from django.core.files.uploadedfile import SimpleUploadedFile
+from django.core.files.uploadedfile \
+    import SimpleUploadedFile
 from django.core.files import File
+
+from . import factories
+from ..models import Storage
+
 
 fake = Faker()
 
@@ -16,7 +16,7 @@ fake = Faker()
 class TaskBaseTestCase(APITestCase):
 
     def setUp(self):
-        self.storage = StorageFactory()
+        self.storage = factories.StorageFactory()
 
 
 class TaskTestCase(TaskBaseTestCase):

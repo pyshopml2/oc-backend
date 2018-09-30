@@ -1,15 +1,12 @@
 from django.db import models
-from django.utils import timezone
-from django.dispatch import receiver
-from django.db.models.signals import post_save
-from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
+from django.core.validators import RegexValidator
 from django.core.mail import send_mail
+from django.utils import timezone
 
 from . import managers
 from position.models import Position
-from temp_token.models import EmailToken, TempToken
 
 
 phone_regex = RegexValidator(

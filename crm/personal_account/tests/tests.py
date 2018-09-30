@@ -1,17 +1,17 @@
 import datetime
 
-from faker import Faker
 from django.urls import reverse
-from rest_framework import status
+from faker import Faker
+from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework.test import APITestCase
 
-from core.tests.consts import *
 from client.tests.factories import ClientFactory
-from task.tests.factories import TaskFactory
-from employee.tests.factories import EmployeeFactory, EmployeeGroupFactory
+from core.tests.consts import *
+from employee.tests.factories import EmployeeFactory, \
+    EmployeeGroupFactory
 from position.tests.factories import PositionFactory
+from task.tests.factories import TaskFactory
 
-from rest_framework_simplejwt.tokens import AccessToken
 
 fake = Faker()
 

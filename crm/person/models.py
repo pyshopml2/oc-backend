@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
-from user.models import User
 from client.models import Client
+
+User = get_user_model()
 
 
 class ContactPerson(User):

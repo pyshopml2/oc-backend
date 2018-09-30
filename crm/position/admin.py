@@ -1,7 +1,8 @@
+from . import models
+
 from django.contrib import admin
-from .models import Position
 
 
-@admin.register(Position)
+@admin.register(models.Position)
 class EmployeePositionAdmin(admin.ModelAdmin):
     pass
