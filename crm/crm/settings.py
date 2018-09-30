@@ -38,15 +38,21 @@ SIMPLE_JWT = {
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles'
+]
+
+THIRD_PARTY_APPS = [
     'drf_yasg',
-    'rest_framework',
+    'rest_framework'
+]
+
+LOCAL_APPS = [
     'client',
     'user',
     'task',
@@ -55,12 +61,14 @@ INSTALLED_APPS = [
     'position',
     'employee',
     'person',
-    'django_extensions',
     'core',
     'api',
-    'rest_framework.authtoken',
-    'temp_token',
+    'temp_token'
 ]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+
 
 GRAPH_MODELS = {
   'all_applications': True,

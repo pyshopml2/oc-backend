@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
 from storage.models import Storage
-from .serializers import StorageSerializer
+from . import serializers
 
 
 class StorageViewSet(viewsets.ModelViewSet):
@@ -26,4 +26,4 @@ class StorageViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Storage.objects.all()
-    serializer_class = StorageSerializer
+    serializer_class = serializers.StorageSerializer

@@ -1,7 +1,7 @@
 from rest_framework import routers
 
-from .viewsets import *
+from . import viewsets
 
 task_router = routers.SimpleRouter()
 
-task_router.register('', TaskViewSet, base_name='task')
+task_router.register('', viewsets.TaskViewSet, base_name='task')

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from position.models import *
+from position.models import Position
 
 
 class PositionSerializer(serializers.ModelSerializer):

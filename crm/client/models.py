@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
+
 from employee.models import Employee
-from user.models import User
 
 
 class ClientStatus(models.Model):

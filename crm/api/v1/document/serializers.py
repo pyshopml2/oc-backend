@@ -1,17 +1,17 @@
 from rest_framework import serializers
 
-from document.models import *
+from document import models
 
 
 class CatalogDocumentsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CatalogDocuments
+        model = models.CatalogDocuments
         fields = '__all__'
 
 
 class DocumentSerializer(serializers.ModelSerializer):
     catalog_documents_id = serializers.PrimaryKeyRelatedField(
-        queryset=CatalogDocuments.objects.all(),
+        queryset=models.CatalogDocuments.objects.all(),
         source='catalog_documents',
         write_only=True,
         help_text='Catalog to which the'
@@ -19,6 +19,6 @@ class DocumentSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Document
+        model = models.Document
         fields = '__all__'
         read_only_fields = ('catalog_documents',)

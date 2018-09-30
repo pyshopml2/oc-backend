@@ -1,14 +1,13 @@
 from rest_framework import serializers
 
-from person.models import ContactPerson
+from client import models
 from employee.models import Employee
-from client.models import ClientStatus, ClientGroup, Client
 
 
 class ClientStatusSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = ClientStatus
+        model = models.ClientStatus
         fields = '__all__'
 
 
@@ -29,14 +28,14 @@ class ClientSerializer(serializers.ModelSerializer):
     )
 
     client_status_id = serializers.PrimaryKeyRelatedField(
-        queryset=ClientStatus.objects.all(),
+        queryset=models.ClientStatus.objects.all(),
         source='client_status',
         write_only=True,
         help_text='Status client (id) (not in get-request)'
     )
 
     client_group_id = serializers.PrimaryKeyRelatedField(
-        queryset=ClientGroup.objects.all(),
+        queryset=models.ClientGroup.objects.all(),
         source='client_group',
         write_only=True,
         many=True,
@@ -44,7 +43,7 @@ class ClientSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Client
+        model = models.Client
         fields = '__all__'
         read_only_fields = (
             'employee_manager',
@@ -64,5 +63,5 @@ class GroupClientSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = ClientGroup
+        model = models.ClientGroup
         fields = '__all__'

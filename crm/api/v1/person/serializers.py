@@ -1,11 +1,12 @@
 from rest_framework import serializers
-from api.v1.user.serializers import UserSerializer
 
-from person.models import *
+from api.v1.user import serializers as user_serializer
+from client.models import Client
+from person.models import ContactPerson
 from position.models import Position
 
 
-class ContactPersonSerializer(UserSerializer):
+class ContactPersonSerializer(user_serializer.UserSerializer):
     user_position_id = serializers.PrimaryKeyRelatedField(
         queryset=Position.objects.all(),
         source='user_position',

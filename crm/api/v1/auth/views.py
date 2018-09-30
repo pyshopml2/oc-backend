@@ -2,14 +2,12 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
-
-from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework import status, authentication
 from rest_framework.response import Response
-from rest_framework import authentication
+from rest_framework.views import APIView
 
 from temp_token.models import EmailToken
-from .serializers import ResetPasswordSerializer
+from . import serializers
 
 User = get_user_model()
 
@@ -37,7 +35,7 @@ class ResetPassword(APIView):
     ```
     """
 
-    serializer_class = ResetPasswordSerializer
+    serializer_class = serializers.ResetPasswordSerializer
     authentication_classes = (authentication.TokenAuthentication,
                               authentication.SessionAuthentication)
 

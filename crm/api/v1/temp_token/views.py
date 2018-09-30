@@ -1,15 +1,14 @@
 import datetime
 
 from django.contrib.auth import get_user_model
-
 from rest_framework import status
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+from rest_framework_simplejwt import tokens
+from rest_framework.views import APIView
 
-from temp_token.models import TempToken, EmailToken
-from core.tests.consts import DATE_TIME_TZ
 from api.v1.user.serializers import UserSerializer
+from core.tests.consts import DATE_TIME_TZ
+from temp_token.models import TempToken
 
 User = get_user_model()
 
@@ -21,8 +20,8 @@ class TempTokenView(APIView):
             if self.check_availability(temp_token):
                 user = User.objects.get(
                     auth_temp_token__token=temp_token)
-                refresh_token = RefreshToken.for_user(user)
-                access_token = AccessToken.for_user(user)
+                refresh_token = tokens.RefreshToken.for_user(user)
+                access_token = tokens.AccessToken.for_user(user)
                 user_serializer = UserSerializer(user)
                 return Response(
                     user_serializer.data,

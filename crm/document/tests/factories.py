@@ -1,7 +1,8 @@
 import factory.fuzzy
 import factory
-from document.models import *
-from document.models import STATUS as document_status
+
+from document.models import CatalogDocuments, Document
+from document.models import STATUS
 
 
 class CatalogDocumentsFactory(factory.DjangoModelFactory):
@@ -18,7 +19,7 @@ class BuildCatalogDocumentsFactory(CatalogDocumentsFactory):
         strategy = factory.BUILD_STRATEGY
 
 
-STATUS_DOCUMENT = [x[0] for x in document_status]
+STATUS_DOCUMENT = [x[0] for x in STATUS]
 
 
 class DocumentFactory(factory.DjangoModelFactory):

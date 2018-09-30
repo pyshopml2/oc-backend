@@ -1,12 +1,13 @@
 from django.contrib import admin
-from .models import *
+
+from . import models
 
 
-@admin.register(Document)
+@admin.register(models.Document)
 class DocumentAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(CatalogDocuments)
+@admin.register(models.CatalogDocuments)
 class CatalogDocumentsAdmin(admin.ModelAdmin):
     pass

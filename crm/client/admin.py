@@ -1,17 +1,18 @@
 from django.contrib import admin
-from .models import *
+
+from . import models
 
 
-@admin.register(ClientStatus)
+@admin.register(models.ClientStatus)
 class ClientStatusAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Client)
+@admin.register(models.Client)
 class ClientAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(ClientGroup)
+@admin.register(models.ClientGroup)
 class ClientAdmin(admin.ModelAdmin):
     pass

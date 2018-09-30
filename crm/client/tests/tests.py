@@ -2,18 +2,19 @@ import datetime
 
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APIClient
-from rest_framework.test import APITestCase
+from rest_framework import test
 
-from core.tests.consts import *
+from client.models import Client, \
+    ClientGroup, ClientStatus
 from client.tests.factories import *
+from core.tests.consts import DATE
 from employee.tests.factories import *
 
 
-class ClientBaseTestCase(APITestCase):
+class ClientBaseTestCase(test.APITestCase):
 
     def setUp(self):
-        self.api_client = APIClient()
+        self.api_client = test.APIClient()
         self.employee = EmployeeFactory(
             first_name='Александр',
             middle_name='Сергеевич',

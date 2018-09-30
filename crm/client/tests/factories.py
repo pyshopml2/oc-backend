@@ -1,14 +1,14 @@
 import pytz
 import factory
 
-from client.models import *
+from client import models
 from employee.tests.factories import EmployeeFactory
 
 
 class ClientStatusFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = ClientStatus
+        model = models.ClientStatus
 
     name = factory.Faker('sentence', nb_words=4)
 
@@ -16,7 +16,7 @@ class ClientStatusFactory(factory.DjangoModelFactory):
 class ClientGroupFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = ClientGroup
+        model = models.ClientGroup
 
     name = factory.Sequence(lambda n: "Group {0}".format(n))
     description = factory.Faker('sentence', nb_words=4)
@@ -27,7 +27,7 @@ class ClientGroupFactory(factory.DjangoModelFactory):
 class ClientFactory(factory.DjangoModelFactory):
 
     class Meta:
-        model = Client
+        model = models.Client
 
     name = factory.Faker('company')
     other_names = factory.Faker('company')

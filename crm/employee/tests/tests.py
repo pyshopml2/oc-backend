@@ -174,11 +174,11 @@ class EmployeeTestCase(EmployeeBaseTestCase):
         self.assertEqual(response.status_code,
                          status.HTTP_201_CREATED)
 
-        employee_id = response.json().get('id')
+        e_email = response.json().get('email')
 
-        self.assertTrue(Employee.objects.filter(pk=employee_id).exists())
+        self.assertTrue(Employee.objects.filter(email=e_email).exists())
 
-        employee = Employee.objects.get(pk=employee_id)
+        employee = Employee.objects.get(email=e_email)
 
         self.assertEqual(employee.first_name, data['first_name'])
         self.assertEqual(employee.middle_name, data['middle_name'])

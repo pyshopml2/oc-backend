@@ -34,6 +34,3 @@ class PersonalAccountViewSet(views.APIView):
             'tasks': tasks.data,
             'employees': employees.data,
         })
-
-
-personal_account = PersonalAccountViewSet.as_view()

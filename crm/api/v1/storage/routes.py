@@ -1,7 +1,7 @@
 from rest_framework import routers
 
-from .viewsets import *
+from . import viewsets
 
 storage_router = routers.SimpleRouter()
 
-storage_router.register('', StorageViewSet, base_name='storage')
+storage_router.register('', viewsets.StorageViewSet, base_name='storage')

@@ -1,5 +1,14 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+
+from rest_framework import permissions
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 from api.v1.document.routes import document_router
 from api.v1.client.routes import client_router
 from api.v1.user.routes import user_router
@@ -9,19 +18,9 @@ from api.v1.person.routes import person_router
 from api.v1.storage.routes import storage_router
 from api.v1.temp_token.views import TempTokenView
 from api.v1.task.routes import task_router
-from api.v1.personal_account.views import personal_account
-
+from api.v1.personal_account.views import PersonalAccountViewSet
 from api.v1.auth.views import ResetPassword, ConfirmEmail
 
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-
-from rest_framework import permissions
-
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
 
 
 schema_view = get_schema_view(
@@ -68,7 +67,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
 
-    path('account', personal_account, name='account'),
+    path('account', PersonalAccountViewSet.as_view(), name='account'),
 
     path('client/', include(
         (client_router.urls, 'client_app'), namespace='client')),

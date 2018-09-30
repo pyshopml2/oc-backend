@@ -1,8 +1,8 @@
 from rest_framework import viewsets
-from client.models import *
-from .serializers import *
 from rest_framework.response import Response
-from drf_yasg.utils import swagger_auto_schema
+
+from . import serializers
+from client import models
 
 
 class ClientStatusViewSet(viewsets.ModelViewSet):
@@ -26,8 +26,8 @@ class ClientStatusViewSet(viewsets.ModelViewSet):
         Update a status.
     """
 
-    queryset = ClientStatus.objects.all()
-    serializer_class = ClientStatusSerializer
+    queryset = models.ClientStatus.objects.all()
+    serializer_class = serializers.ClientStatusSerializer
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -51,8 +51,8 @@ class ClientViewSet(viewsets.ModelViewSet):
         Update a client.
     """
 
-    queryset = Client.objects.all()
-    serializer_class = ClientSerializer
+    queryset = models.Client.objects.all()
+    serializer_class = serializers.ClientSerializer
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -81,5 +81,5 @@ class ClientGroupViewSet(viewsets.ModelViewSet):
         Update a group.
     """
 
-    queryset = ClientGroup.objects.all()
-    serializer_class = GroupClientSerializer
+    queryset = models.ClientGroup.objects.all()
+    serializer_class = serializers.GroupClientSerializer

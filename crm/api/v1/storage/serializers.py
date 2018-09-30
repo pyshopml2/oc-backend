@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from storage.models import *
+
+from storage.models import Storage
 
 
 class StorageSerializer(serializers.ModelSerializer):

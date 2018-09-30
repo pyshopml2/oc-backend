@@ -2,19 +2,18 @@ import datetime
 
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
 
-from .factories import *
-from core.tests.consts import *
+from . import factories
+from core.tests.consts import TZ, DATE
 from document.models import Document, CatalogDocuments
 
 
 class DocumentBaseTestCase(APITestCase):
 
     def setUp(self):
-        self.catalog_documents = CatalogDocumentsFactory()
-        self.document = DocumentFactory(
+        self.catalog_documents = factories.CatalogDocumentsFactory()
+        self.document = factories.DocumentFactory(
             catalog_documents=self.catalog_documents,
             status='1',
             created_date='2018-08-29T20:43:18.869351+03:00'

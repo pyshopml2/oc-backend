@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
+from . import serializers
 from position.models import Position
-from .serializers import PositionSerializer
 
 
 class PositionViewSet(viewsets.ModelViewSet):
@@ -26,4 +26,4 @@ class PositionViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Position.objects.all()
-    serializer_class = PositionSerializer
+    serializer_class = serializers.PositionSerializer

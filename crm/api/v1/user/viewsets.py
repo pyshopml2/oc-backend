@@ -1,7 +1,10 @@
+from django.contrib.auth import get_user_model
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
-from .serializers import UserSerializer, User
+from . import serializers
+
+User = get_user_model()
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -26,7 +29,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = serializers.UserSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

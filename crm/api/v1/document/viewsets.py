@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from document.models import *
-from .serializers import *
+from . import serializers
+from document import models
 
 
 class CatalogDocumentsViewSet(viewsets.ModelViewSet):
@@ -25,8 +25,8 @@ class CatalogDocumentsViewSet(viewsets.ModelViewSet):
         Update a catalog.
     """
 
-    queryset = CatalogDocuments.objects.all()
-    serializer_class = CatalogDocumentsSerializer
+    queryset = models.CatalogDocuments.objects.all()
+    serializer_class = serializers.CatalogDocumentsSerializer
 
 
 class DocumentViewSet(viewsets.ModelViewSet):
@@ -50,5 +50,5 @@ class DocumentViewSet(viewsets.ModelViewSet):
         Update a document.
     """
 
-    queryset = Document.objects.all()
-    serializer_class = DocumentSerializer
+    queryset = models.Document.objects.all()
+    serializer_class = serializers.DocumentSerializer
