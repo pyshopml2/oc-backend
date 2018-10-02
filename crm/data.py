@@ -17,8 +17,8 @@ from position import models as pos_models
 from storage import models as s_models
 from task import models as t_models
 
-from user.models import STATUS as user_status
 from document.models import STATUS as document_status
+from user.models import STATUS as user_status
 from task.models import PRIORITY as task_prioity
 from task.models import STATUS as task_status
 

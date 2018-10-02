@@ -1,5 +1,5 @@
-from django.db import models
 from django.core.validators import RegexValidator
+from django.db import models
 
 phone_regex = RegexValidator(
     regex=r'^\+?1?\d{10}$',

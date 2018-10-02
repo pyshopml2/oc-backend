@@ -3,8 +3,8 @@ import pytz
 import factory.fuzzy
 import factory
 
-from task import models
 from employee.tests.factories import EmployeeFactory
+from task import models
 
 PRIORITY_TASK = [x[0] for x in models.PRIORITY]
 STATUS_TASK = [x[0] for x in models.STATUS]

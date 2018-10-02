@@ -1,10 +1,10 @@
-from faker import Faker
 from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APITestCase
 from django.core.files.uploadedfile \
     import SimpleUploadedFile
 from django.core.files import File
+from faker import Faker
+from rest_framework import status
+from rest_framework.test import APITestCase
 
 from . import factories
 from ..models import Storage
