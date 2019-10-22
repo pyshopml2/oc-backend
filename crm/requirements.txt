@@ -20,7 +20,7 @@ jsonpointer==1.14
 MarkupSafe==1.0
 Naked==0.1.31
 openapi-codec==1.3.2
-Pillow==5.2.0
+Pillow==6.2.0
 psycopg2-binary==2.7.5
 pycodestyle==2.4.0
 pycrypto==2.6.1
