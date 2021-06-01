@@ -38,5 +38,5 @@ six==1.11.0
 strict-rfc3339==0.7
 text-unidecode==1.2
 uritemplate==3.0.0
-urllib3==1.23
+urllib3==1.26.5
 validate-email==1.3
